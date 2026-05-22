@@ -76,7 +76,7 @@ export default function CustomCursor() {
 
       const isButtonMergeTarget =
         event.target instanceof Element &&
-        Boolean(event.target.closest("[data-cursor-merge='button']"));
+        Boolean(event.target.closest("[data-cursor-merge='true']"));
 
       isMergedWithButtonRef.current = isButtonMergeTarget;
 

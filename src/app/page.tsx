@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Button from "@/components/ui/button";
+import ButtonGroup from "@/components/ui/button-group";
 import SectionView from "@/components/ui/section-view";
 
 const greetings = ["Hello", "Hola", "नमस्ते", "你好", "Bonjour"];
@@ -19,23 +19,30 @@ export default function Home() {
 
   return (
     <main>
-      <SectionView className="flex flex-col gap-12 py-24">
+      {/* Hero */}
+      <SectionView className="flex flex-col gap-10 py-24">
         {/* Greeting - name */}
         <div className="flex flex-col gap-2 text-5xl font-serif">
           <h1>{greetings[greetingIndex]}</h1>
           <h1>i'm</h1>
-          <h1>Udhav Wadhawan .</h1>
+          <h1>udhav .</h1>
         </div>
         <div className="grid grid-cols-6">
           <h3 className="col-span-4 font-serif text-2xl text-zinc-200">
-            I design and build thoughtful digital experiences. This space is a
+            i design and build thoughtful digital experiences. this space is a
             clean starting point for projects, writing, and contact details.
           </h3>
         </div>
-        {/* Know more */}
-        <div>
-          <Button variant="outlined">Say hi</Button>
-        </div>
+
+        {/* Dimension of me */}
+        <ButtonGroup
+          items={[
+            { id: "1", label: "Builder", onClick: () => {} },
+            { id: "2", label: "Thinker", onClick: () => {} },
+            { id: "3", label: "Mindset", onClick: () => {} },
+            { id: "4", label: "Human", onClick: () => {} },
+          ]}
+        />
       </SectionView>
     </main>
   );
