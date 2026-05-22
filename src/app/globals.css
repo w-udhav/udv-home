@@ -1,26 +1,104 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
+  --font-serif:
+    var(--font-source-serif-4), ui-serif, Georgia, Cambria, "Times New Roman",
+    Times, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-secondary: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #000;
+  --foreground: #fff;
+}
+
+html {
+  font-size: 20px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
+}
+
+@media (pointer: fine) {
+  html,
+  body,
+  body * {
+    cursor: none;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.3);
+  transform: translate(-50%, -50%);
+  transition:
+    width 240ms ease,
+    height 240ms ease,
+    border-radius 240ms ease,
+    background-color 240ms ease,
+    border-color 240ms ease,
+    opacity 180ms ease;
+}
+
+.custom-cursor.custom-cursor--text {
+  width: 3px;
+  height: var(--cursor-text-height, 1.35rem);
+  border-radius: 2px;
+  border-color: rgb(59 130 246 / 0.95);
+  background: rgb(59 130 246 / 0.95);
+}
+
+::selection {
+  background-color: rgb(255 255 255 / 0.3);
+}
+
+.squircle-btn {
+  position: relative;
+  isolation: isolate;
+}
+
+.squircle-btn::before {
+  content: "";
+  position: absolute;
+  left: var(--cursor-x, 50%);
+  top: var(--cursor-y, 50%);
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 9999px;
+  background: var(--cursor-color, rgb(255 255 255 / 0.2));
+  opacity: var(--cursor-opacity, 0);
+  transform: translate(-50%, -50%) scale(0.85);
+  transition:
+    opacity 220ms ease,
+    transform 260ms ease,
+    width 220ms ease,
+    height 220ms ease;
+  z-index: 0;
+}
+
+.squircle-btn:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.squircle-btn__content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transform: translate(var(--content-x, 0), var(--content-y, 0));
+  transition: transform 180ms ease-out;
 }
