@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Geist, Source_Serif_4 } from "next/font/google";
+import CustomCursor from "@/components/ui/custom-cursor";
 import { about, links } from "@/utils/constants";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const sourceSerif4 = Source_Serif_4({
+  variable: "--font-source-serif-4",
   subsets: ["latin"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
 });
 
@@ -55,8 +56,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+    <html lang="en" dir="ltr">
+      <body
+        className={`${sourceSerif4.variable} ${geist.variable} font-serif antialiased`}
+      >
+        <CustomCursor />
         {children}
       </body>
     </html>

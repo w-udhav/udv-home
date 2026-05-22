@@ -1,50 +1,42 @@
-import Image from "next/image";
-import avatar from "@/assets/profile.png";
-import { cn } from "@/utils/cn";
-import { about } from "@/utils/constants";
+"use client";
 
-const baseClassParagraph = "max-w-2xl text-lg text-zinc-600 dark:text-zinc-300";
+import { useEffect, useState } from "react";
+import Button from "@/components/ui/button";
+import SectionView from "@/components/ui/section-view";
+
+const greetings = ["Hello", "Hola", "नमस्ते", "你好", "Bonjour"];
 
 export default function Home() {
+  const [greetingIndex, setGreetingIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGreetingIndex((prev) => (prev + 1) % greetings.length);
+    }, 1600);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <main className="bg-background text-foreground flex w-full min-h-dvh max-h-dvh items-end">
-      <div className="flex max-w-4xl flex-col gap-5 px-4 py-4 sm:px-10">
-        <header className="space-y-5">
-          <Image
-            src={avatar}
-            alt="Udhav Wadhawan"
-            width={90}
-            height={90}
-            className="rounded-full object-cover"
-          />
-          <div className="flex flex-col">
-            <h1
-              className={cn(
-                baseClassParagraph,
-                "font-serif text-2xl! sm:text-5xl! leading-tight",
-              )}
-            >
-              {about.name}
-            </h1>
-            <p className={baseClassParagraph}>{about.title}</p>
-          </div>
-        </header>
-        <section>
-          <div>
-            <p className={baseClassParagraph}>
-              Systems · Architecture · Product
-            </p>
-            <p className={baseClassParagraph}>Structure over chaos</p>
-          </div>
-        </section>
-        <section>
-          <div>
-            <p className={baseClassParagraph}>
-              Exploring the world of software development and architecture.
-            </p>
-          </div>
-        </section>
-      </div>
+    <main>
+      <SectionView className="flex flex-col gap-12 py-24">
+        {/* Greeting - name */}
+        <div className="flex flex-col gap-2 text-5xl font-serif">
+          <h1>{greetings[greetingIndex]}</h1>
+          <h1>i'm</h1>
+          <h1>Udhav Wadhawan .</h1>
+        </div>
+        <div className="grid grid-cols-6">
+          <h3 className="col-span-4 font-serif text-2xl text-zinc-200">
+            I design and build thoughtful digital experiences. This space is a
+            clean starting point for projects, writing, and contact details.
+          </h3>
+        </div>
+        {/* Know more */}
+        <div>
+          <Button variant="outlined">Say hi</Button>
+        </div>
+      </SectionView>
     </main>
   );
 }
