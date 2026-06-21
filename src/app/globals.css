@@ -10,8 +10,11 @@
   --color-foreground: #fff;
   --color-surface-800: #282833;
   --color-surface-900: #121217;
+  --color-surface-925: #0d1222;
+  --color-surface-950: #070910;
   --color-primary-blue-100: #008fff;
   --color-primary-blue-200: #4285f4;
+  --color-accent-magenta-100: #f85dab;
 }
 
 html {
@@ -42,7 +45,7 @@ body {
   width: 2rem;
   height: 2rem;
   border-radius: 9999px;
-  background: var(--color-surface-800);
+  background: color-mix(in srgb, var(--color-surface-800) 62%, transparent);
   transform: translate(-50%, -50%);
   transition:
     width 240ms ease,
@@ -58,11 +61,45 @@ body {
   height: var(--cursor-text-height, 1.35rem);
   border-radius: 2px;
   border-color: var(--color-primary-blue-100);
-  background: var(--color-primary-blue-100);
+  background: color-mix(in srgb, var(--color-primary-blue-100) 68%, transparent);
 }
 
 ::selection {
   background-color: var(--color-surface-800);
+}
+
+.surface-grid-lines {
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent 159px,
+    color-mix(
+        in srgb,
+        var(--color-foreground) var(--grid-line-opacity, 7%),
+        transparent
+      )
+      160px
+  );
+}
+
+.project-hero-fallback {
+  background-image:
+    radial-gradient(
+      circle at 25% 20%,
+      color-mix(in srgb, var(--color-primary-blue-200) 58%, transparent),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 80% 30%,
+      color-mix(in srgb, var(--color-accent-magenta-100) 42%, transparent),
+      transparent 38%
+    ),
+    linear-gradient(
+      140deg,
+      var(--color-surface-950) 0%,
+      var(--color-surface-925) 58%,
+      var(--color-background) 100%
+    );
 }
 
 .cursor-merge-surface {

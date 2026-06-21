@@ -8,6 +8,10 @@ function isTextHoverTarget(target: EventTarget | null): boolean {
     return false;
   }
 
+  if (target.closest("[data-cursor-no-text='true']")) {
+    return false;
+  }
+
   if (target.closest("input, textarea, [contenteditable='true']")) {
     return true;
   }
@@ -25,6 +29,10 @@ function isTextHoverTarget(target: EventTarget | null): boolean {
 
 function getTextReferenceElement(target: EventTarget | null): Element | null {
   if (!(target instanceof Element)) {
+    return null;
+  }
+
+  if (target.closest("[data-cursor-no-text='true']")) {
     return null;
   }
 

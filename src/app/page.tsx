@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import ButtonGroup from "@/components/ui/button-group";
 import SectionView from "@/components/ui/section-view";
+import ShowcaseGrid from "@/components/ui/showcase-grid";
+import ThinkingSection from "@/components/ui/thinking-section";
+import { showcaseTiles } from "@/utils/showcase-tiles";
 
 const greetings = ["Hello", "Hola", "नमस्ते", "你好", "Bonjour"];
 
@@ -28,7 +31,7 @@ export default function Home() {
           <h1>udhav .</h1>
         </div>
         <div className="grid grid-cols-6">
-          <h3 className="col-span-4 font-serif text-2xl text-zinc-200">
+          <h3 className="col-span-4 font-serif text-xl text-zinc-200">
             i design and build thoughtful digital experiences. this space is a
             clean starting point for projects, writing, and contact details.
           </h3>
@@ -36,14 +39,22 @@ export default function Home() {
 
         {/* Dimension of me */}
         <ButtonGroup
+          size="small"
           items={[
-            { id: "1", label: "Builder", onClick: () => {} },
-            { id: "2", label: "Thinker", onClick: () => {} },
-            { id: "3", label: "Mindset", onClick: () => {} },
-            { id: "4", label: "Human", onClick: () => {} },
+            { id: "1", label: "Work", onClick: () => {} },
+            { id: "2", label: "Thinking", onClick: () => {} },
+            { id: "3", label: "Elsewhere", onClick: () => {} },
           ]}
         />
       </SectionView>
+
+      <SectionView id="work" fullView>
+        <ShowcaseGrid tiles={showcaseTiles} />
+      </SectionView>
+
+      <ThinkingSection />
+
+      <SectionView id="elsewhere" className="pb-24" />
     </main>
   );
 }

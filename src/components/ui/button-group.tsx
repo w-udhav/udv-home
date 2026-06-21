@@ -12,12 +12,26 @@ export type ButtonGroupItem = Omit<
 > & {
   id?: string;
   label: ReactNode;
+  leftIcon?: ReactNode;
   startIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  endIcon?: ReactNode;
+  active?: boolean;
   className?: string;
 };
 
+export const BUTTON_GROUP_SIZE = {
+  SMALL: "small",
+  NORMAL: "normal",
+  LARGE: "large",
+} as const;
+
+export type ButtonGroupSize =
+  (typeof BUTTON_GROUP_SIZE)[keyof typeof BUTTON_GROUP_SIZE];
+
 type ButtonGroupProps = {
   items: ButtonGroupItem[];
+  size?: ButtonGroupSize;
   className?: string;
   buttonClassName?: string;
   mergePadding?: number;
@@ -25,10 +39,20 @@ type ButtonGroupProps = {
 
 export default function ButtonGroup({
   items,
+  size = BUTTON_GROUP_SIZE.NORMAL,
   className,
   buttonClassName,
   mergePadding = 14,
 }: ButtonGroupProps) {
+  const sizeClasses = {
+    [BUTTON_GROUP_SIZE.SMALL]:
+      "min-h-10 px-5 text-sm [--button-icon-size:0.875rem]",
+    [BUTTON_GROUP_SIZE.NORMAL]:
+      "min-h-14 px-7 text-base [--button-icon-size:1rem]",
+    [BUTTON_GROUP_SIZE.LARGE]:
+      "min-h-16 px-8 text-lg [--button-icon-size:1.125rem]",
+  } satisfies Record<ButtonGroupSize, string>;
+
   const getButtonRadius = (index: number, total: number) => {
     if (total <= 1) {
       return "rounded-[1.1rem]";
@@ -49,7 +73,11 @@ export default function ButtonGroup({
           {
             id,
             label,
+            leftIcon,
             startIcon,
+            rightIcon,
+            endIcon,
+            active = false,
             className: itemClassName,
             type,
             ...buttonProps
@@ -64,25 +92,36 @@ export default function ButtonGroup({
               type={type ?? "button"}
               className={clsx(
                 "font-serif",
-                "inline-flex min-h-14 items-center justify-center overflow-hidden px-7 py-0 text-base font-medium font-secondary transition-all duration-300 ease-out",
-                "border border-transparent bg-surface-800 text-foreground hover:bg-surface-900",
+                "inline-flex items-center justify-center overflow-hidden py-0 font-medium font-secondary transition-all duration-300 ease-out",
+                "border border-transparent",
+                {
+                  "bg-primary-blue-100 text-background": active,
+                  "bg-surface-800 text-foreground hover:bg-surface-900":
+                    !active,
+                },
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-100 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 "disabled:cursor-not-allowed disabled:opacity-50",
-                "[--cursor-color:rgb(255_255_255_/_0.16)]",
+                "[--cursor-color:rgb(255_255_255/0.16)]",
+                sizeClasses[size],
                 getButtonRadius(index, items.length),
                 buttonClassName,
                 itemClassName,
               )}
               {...buttonProps}
             >
-              {startIcon ? (
-                <span className="inline-flex h-4 w-4 items-center justify-center">
-                  {startIcon}
+              {(leftIcon ?? startIcon) ? (
+                <span className="inline-flex h-[--button-icon-size] w-[--button-icon-size] items-center justify-center">
+                  {leftIcon ?? startIcon}
                 </span>
               ) : null}
               <span className="inline-block leading-none -translate-y-[0.02em]">
                 {label}
               </span>
+              {(rightIcon ?? endIcon) ? (
+                <span className="inline-flex h-[--button-icon-size] w-[--button-icon-size] items-center justify-center">
+                  {rightIcon ?? endIcon}
+                </span>
+              ) : null}
             </button>
           </CursorMergeWrapper>
         ),
