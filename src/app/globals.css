@@ -15,6 +15,9 @@
   --color-primary-blue-100: #008fff;
   --color-primary-blue-200: #4285f4;
   --color-accent-magenta-100: #f85dab;
+  --color-cursor-merge-soft: rgb(255 255 255 / 0.16);
+  --color-cursor-merge-muted: rgb(40 40 51 / 0.5);
+  --color-cursor-merge-deep: rgb(40 48 70 / 0.88);
 }
 
 html {
@@ -115,6 +118,18 @@ body {
   isolation: isolate;
 }
 
+.cursor-merge-color-soft {
+  --cursor-color: var(--color-cursor-merge-soft);
+}
+
+.cursor-merge-color-muted {
+  --cursor-color: var(--color-cursor-merge-muted);
+}
+
+.cursor-merge-color-deep {
+  --cursor-color: var(--color-cursor-merge-deep);
+}
+
 .cursor-merge-hitbox {
   display: inline-block;
   padding: var(--cursor-merge-padding, 0px);
@@ -144,6 +159,52 @@ body {
   transform: translate(-50%, -50%) scale(1);
 }
 
+.cursor-merge-surface--full::before {
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 220ms ease;
+}
+
+.cursor-merge-surface--full:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes cursor-merge-full-feedback-ripple {
+  0% {
+    width: 0.7rem;
+    height: 0.7rem;
+    opacity: calc(var(--cursor-opacity, 0) * 0.34);
+  }
+  100% {
+    width: 7rem;
+    height: 7rem;
+    opacity: 0;
+  }
+}
+
+.cursor-merge-surface--full::after {
+  content: "";
+  position: absolute;
+  left: var(--cursor-x, 50%);
+  top: var(--cursor-y, 50%);
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-primary-blue-100) 58%, transparent);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cursor-merge-surface--full:hover::after {
+  animation: cursor-merge-full-feedback-ripple 360ms ease-out;
+}
+
 .cursor-merge-content {
   position: relative;
   z-index: 1;
@@ -153,4 +214,8 @@ body {
   gap: 0.5rem;
   transform: translate(var(--content-x, 0), var(--content-y, 0));
   transition: transform 180ms ease-out;
+}
+
+.cursor-merge-surface--full:hover .cursor-merge-content {
+  transform: translate(var(--content-x, 0), var(--content-y, 0)) scale(1.015);
 }

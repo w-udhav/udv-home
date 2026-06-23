@@ -186,11 +186,11 @@ export default function BottomDockNav() {
   return (
     <div className="pointer-events-none sticky inset-x-0 bottom-0 z-50">
       <SectionView fullView className="px-3 pb-4 sm:px-6 sm:pb-6">
-        <nav className="pointer-events-auto relative mx-auto flex w-fit items-center gap-1 rounded-2xl bg-zinc-900/55 p-1.5 shadow-2xl backdrop-blur-2xl">
+        <nav className="pointer-events-auto relative mx-auto flex w-fit items-center gap-1 rounded-2xl border border-transparent bg-surface-900 p-1.5 shadow-2xl">
           <span
             aria-hidden
             className={clsx(
-              "pointer-events-none absolute inset-y-1.5 left-0 rounded-xl bg-white/16 ring-1 ring-white/5 transition-[transform,opacity] duration-300 ease-out",
+              "pointer-events-none absolute inset-y-1.5 left-0 rounded-xl bg-surface-800 transition-[transform,opacity] duration-300 ease-out",
               DOCK_ITEM_WIDTH_CLASS,
               activeSurface.visible ? "opacity-100" : "opacity-0",
             )}
@@ -221,11 +221,12 @@ export default function BottomDockNav() {
                   }
                   href={item.href}
                   className={clsx(
-                    "group relative z-10 inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl px-3.5 py-2.5 font-secondary text-sm transition-all duration-300 ease-out",
+                    "group relative z-10 inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl px-3.5 py-2.5 font-secondary text-sm transition-all duration-300 ease-out cursor-merge-color-soft",
                     DOCK_ITEM_WIDTH_CLASS,
                     {
-                      "text-zinc-100": active,
-                      "text-zinc-300 hover:-translate-y-0.5 hover:bg-white/9 hover:text-zinc-100":
+                      "text-foreground hover:bg-white/8 hover:ring-1 hover:ring-white/8":
+                        active,
+                      "text-zinc-300 hover:-translate-y-0.5 hover:bg-white/9 hover:text-foreground":
                         !active,
                     },
                   )}

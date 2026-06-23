@@ -1,6 +1,8 @@
 "use client";
 
+import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
+import Button from "@/components/ui/button";
 import ButtonGroup from "@/components/ui/button-group";
 import ElsewhereSection from "@/components/ui/elsewhere-section";
 import SectionView from "@/components/ui/section-view";
@@ -39,14 +41,11 @@ export default function Home() {
         </div>
 
         {/* Dimension of me */}
-        <ButtonGroup
-          size="small"
-          items={[
-            { id: "1", label: "Work", onClick: () => {} },
-            { id: "2", label: "Thinking", onClick: () => {} },
-            { id: "3", label: "Elsewhere", onClick: () => {} },
-          ]}
-        />
+        <div>
+          <Button endIcon={<Icon icon="line-md:arrow-right" width={20} />}>
+            Say hi
+          </Button>
+        </div>
       </SectionView>
 
       <SectionView id="work" fullView>

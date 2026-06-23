@@ -101,7 +101,7 @@ export default function ButtonGroup({
                 },
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue-100 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 "disabled:cursor-not-allowed disabled:opacity-50",
-                "[--cursor-color:rgb(255_255_255/0.16)]",
+                "cursor-merge-color-soft",
                 sizeClasses[size],
                 getButtonRadius(index, items.length),
                 buttonClassName,
