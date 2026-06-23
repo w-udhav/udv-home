@@ -27,9 +27,9 @@ export default function Button({
           "rounded-full border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "disabled:cursor-not-allowed disabled:opacity-50",
           {
-            "[--cursor-color:rgb(255_255_255_/_0.16)] border-transparent bg-surface-800 text-foreground hover:bg-surface-900 focus-visible:ring-primary-blue-100":
+            "[--cursor-color:rgb(255_255_255/0.16)] border-transparent bg-surface-800 text-foreground hover:bg-surface-900 focus-visible:ring-primary-blue-100":
               variant === "filled",
-            "[--cursor-color:rgb(40_40_51_/_0.5)] border-surface-800 bg-transparent text-foreground hover:border-surface-800 hover:bg-surface-800/45 focus-visible:ring-primary-blue-100":
+            "[--cursor-color:rgb(40_40_51/0.5)] border-surface-800 bg-transparent text-foreground hover:border-surface-800 hover:bg-surface-800/45 focus-visible:ring-primary-blue-100":
               variant === "outlined",
           },
           className,

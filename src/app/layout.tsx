@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Source_Serif_4 } from "next/font/google";
+import { Fraunces, Geist } from "next/font/google";
 import BottomDockNav from "@/components/ui/bottom-dock-nav";
 import CustomCursor from "@/components/ui/custom-cursor";
 import SiteFooter from "@/components/ui/site-footer";
 import { about, links } from "@/utils/constants";
 import "./globals.css";
 
-const sourceSerif4 = Source_Serif_4({
-  variable: "--font-source-serif-4",
+const serif = Fraunces({
+  variable: "--font-serif",
   subsets: ["latin"],
 });
 
-const geist = Geist({
-  variable: "--font-geist",
+const sans = Geist({
+  variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -60,7 +61,7 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr">
       <body
-        className={`${sourceSerif4.variable} ${geist.variable} pb-28 font-serif antialiased sm:pb-32`}
+        className={`${serif.variable} ${sans.variable} pb-28 font-serif antialiased sm:pb-32`}
       >
         <CustomCursor />
         {children}

@@ -2,10 +2,10 @@
 
 @theme inline {
   --font-serif:
-    var(--font-source-serif-4), ui-serif, Georgia, Cambria, "Times New Roman",
-    Times, serif;
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-secondary: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    var(--font-serif), ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-secondary: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --color-background: #000;
   --color-foreground: #fff;
   --color-surface-800: #282833;
@@ -19,6 +19,14 @@
 
 html {
   font-size: 20px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {

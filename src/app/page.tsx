@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ButtonGroup from "@/components/ui/button-group";
+import ElsewhereSection from "@/components/ui/elsewhere-section";
 import SectionView from "@/components/ui/section-view";
 import ShowcaseGrid from "@/components/ui/showcase-grid";
 import ThinkingSection from "@/components/ui/thinking-section";
@@ -54,7 +55,7 @@ export default function Home() {
 
       <ThinkingSection />
 
-      <SectionView id="elsewhere" className="pb-24" />
+      <ElsewhereSection />
     </main>
   );
 }
