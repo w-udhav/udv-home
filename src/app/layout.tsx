@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist } from "next/font/google";
-import BottomDockNav from "@/components/ui/bottom-dock-nav";
 import CustomCursor from "@/components/ui/custom-cursor";
 import SiteFooter from "@/components/ui/site-footer";
 import { about, links } from "@/utils/constants";
@@ -61,11 +60,10 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr">
       <body
-        className={`${serif.variable} ${sans.variable} pb-28 font-serif antialiased sm:pb-32`}
+        className={`${serif.variable} ${sans.variable} font-serif antialiased`}
       >
         <CustomCursor />
         {children}
-        <BottomDockNav />
         <SiteFooter />
       </body>
     </html>

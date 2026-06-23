@@ -2,6 +2,7 @@
 
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
+import BottomDockNav from "@/components/ui/bottom-dock-nav";
 import Button from "@/components/ui/button";
 import ButtonGroup from "@/components/ui/button-group";
 import ElsewhereSection from "@/components/ui/elsewhere-section";
@@ -55,6 +56,7 @@ export default function Home() {
       <ThinkingSection />
 
       <ElsewhereSection />
+      <BottomDockNav />
     </main>
   );
 }

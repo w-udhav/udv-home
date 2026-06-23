@@ -54,8 +54,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         logoImageSrc={project.logoImageSrc}
       />
 
-      <SectionView fullView className="px-4 py-16 sm:px-8 lg:px-12 lg:py-24">
-        <div className="mx-auto grid w-full max-w-[1380px] gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
+      <SectionView className="py-16 lg:py-24">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div>
             <section>
               <h2 className="font-secondary text-xs uppercase tracking-[0.18em] text-zinc-400">
@@ -65,7 +65,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 font-secondary text-sm text-zinc-200"
+                    className="rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 font-secondary text-sm text-zinc-200"
                   >
                     {tech}
                   </span>

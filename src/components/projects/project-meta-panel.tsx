@@ -1,4 +1,4 @@
-import Link from "next/link";
+import LinkButton, { LINK_BUTTON_VARIANT } from "@/components/ui/link-button";
 import type { Project } from "@/utils/projects";
 
 type ProjectMetaPanelProps = {
@@ -16,7 +16,7 @@ function formatDate(dateValue: string) {
 
 export default function ProjectMetaPanel({ project }: ProjectMetaPanelProps) {
   return (
-    <aside className="h-fit rounded-xl border border-white/10 bg-zinc-950/80 p-5 lg:sticky lg:top-28">
+    <aside className="h-fit rounded-2xl border border-white/10 bg-zinc-950/80 p-5 lg:sticky lg:top-24">
       <h3 className="font-secondary text-xs uppercase tracking-[0.18em] text-zinc-400">
         Project Meta
       </h3>
@@ -52,25 +52,29 @@ export default function ProjectMetaPanel({ project }: ProjectMetaPanelProps) {
 
       <div className="mt-6 flex flex-col gap-2">
         {project.repositoryUrl ? (
-          <Link
+          <LinkButton
             href={project.repositoryUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-between rounded-md border border-white/10 bg-white/5 px-3 py-2 font-secondary text-sm text-zinc-100 transition-colors duration-200 hover:bg-white/10"
+            variant={LINK_BUTTON_VARIANT.OUTLINED}
+            className="w-full justify-between rounded-xl text-zinc-100"
+            endIcon={<span aria-hidden>↗</span>}
           >
-            Repository <span aria-hidden>↗</span>
-          </Link>
+            Repository
+          </LinkButton>
         ) : null}
 
         {project.liveUrl ? (
-          <Link
+          <LinkButton
             href={project.liveUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-between rounded-md border border-white/10 bg-white/5 px-3 py-2 font-secondary text-sm text-zinc-100 transition-colors duration-200 hover:bg-white/10"
+            variant={LINK_BUTTON_VARIANT.FADED}
+            className="w-full justify-between rounded-xl text-zinc-100"
+            endIcon={<span aria-hidden>↗</span>}
           >
-            Live Link <span aria-hidden>↗</span>
-          </Link>
+            Live Link
+          </LinkButton>
         ) : null}
       </div>
     </aside>
