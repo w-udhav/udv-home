@@ -8,6 +8,10 @@ function isTextHoverTarget(target: EventTarget | null): boolean {
     return false;
   }
 
+  if (target.closest("[data-cursor-no-text='true']")) {
+    return false;
+  }
+
   if (target.closest("input, textarea, [contenteditable='true']")) {
     return true;
   }
@@ -25,6 +29,10 @@ function isTextHoverTarget(target: EventTarget | null): boolean {
 
 function getTextReferenceElement(target: EventTarget | null): Element | null {
   if (!(target instanceof Element)) {
+    return null;
+  }
+
+  if (target.closest("[data-cursor-no-text='true']")) {
     return null;
   }
 
@@ -76,7 +84,7 @@ export default function CustomCursor() {
 
       const isButtonMergeTarget =
         event.target instanceof Element &&
-        Boolean(event.target.closest("[data-cursor-merge='button']"));
+        Boolean(event.target.closest("[data-cursor-merge='true']"));
 
       isMergedWithButtonRef.current = isButtonMergeTarget;
 

@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-type SectionViewProps = {
+type SectionViewProps = ComponentPropsWithoutRef<"section"> & {
   fullView?: boolean;
-  className?: string;
   children?: ReactNode;
 };
 
@@ -11,9 +10,11 @@ export default function SectionView({
   fullView = false,
   className,
   children,
+  ...sectionProps
 }: SectionViewProps) {
   return (
     <section
+      {...sectionProps}
       className={clsx({
         "w-full": fullView,
         "grid grid-cols-10": !fullView,

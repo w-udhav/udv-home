@@ -10,6 +10,7 @@ const links = {
   github: "https://github.com/w-udhav",
   linkedin: "https://www.linkedin.com/in/w-udhav",
   instagram: "https://www.instagram.com/w_udhav/",
+  twitter: "https://x.com/angerastra",
 };
 
 export { about, links };
