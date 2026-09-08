@@ -1,62 +1,129 @@
 "use client";
 
-import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
-import BottomDockNav from "@/components/ui/bottom-dock-nav";
-import Button from "@/components/ui/button";
-import ButtonGroup from "@/components/ui/button-group";
-import ElsewhereSection from "@/components/ui/elsewhere-section";
-import SectionView from "@/components/ui/section-view";
-import ShowcaseGrid from "@/components/ui/showcase-grid";
-import ThinkingSection from "@/components/ui/thinking-section";
-import { showcaseTiles } from "@/utils/showcase-tiles";
-
-const greetings = ["Hello", "Hola", "नमस्ते", "你好", "Bonjour"];
+import { useState } from "react";
+import FolderNav from "@/components/folder-nav";
+import { about, links, notes, writings } from "@/utils/constants";
 
 export default function Home() {
-  const [greetingIndex, setGreetingIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGreetingIndex((prev) => (prev + 1) % greetings.length);
-    }, 1600);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [longBio, setLongBio] = useState(false);
 
   return (
-    <main>
-      {/* Hero */}
-      <SectionView className="flex flex-col gap-10 py-24">
-        {/* Greeting - name */}
-        <div className="flex flex-col gap-2 text-5xl font-serif">
-          <h1>{greetings[greetingIndex]}</h1>
-          <h1>i'm</h1>
-          <h1>udhav .</h1>
-        </div>
-        <div className="grid grid-cols-6">
-          <h3 className="col-span-4 font-serif text-xl text-zinc-200">
-            i design and build thoughtful digital experiences. this space is a
-            clean starting point for projects, writing, and contact details.
-          </h3>
-        </div>
+    <main id="top" className="page-atmosphere min-h-dvh pb-44">
+      <div className="mx-auto flex max-w-2xl flex-col gap-14 px-6 pt-16 sm:px-8 sm:pt-20">
+        <header>
+          <h1 className="type-heading">{about.handle}</h1>
+          <p className="type-caption mt-3 max-w-md">{about.title}</p>
+        </header>
 
-        {/* Dimension of me */}
-        <div>
-          <Button endIcon={<Icon icon="line-md:arrow-right" width={20} />}>
-            Say hi
-          </Button>
-        </div>
-      </SectionView>
+        <section aria-labelledby="bio-heading">
+          <div className="mb-3 flex items-center justify-between gap-4">
+            <h2 id="bio-heading" className="type-caption">
+              Bio
+            </h2>
+            <fieldset
+              aria-label="Bio length"
+              className="m-0 inline-flex rounded-full border-0 bg-surface p-0.5 ring-1 ring-border"
+            >
+              <button
+                type="button"
+                onClick={() => setLongBio(false)}
+                className={`rounded-full px-3 py-1 type-caption transition-colors ${
+                  !longBio
+                    ? "bg-surface-elevated text-foreground shadow-sm"
+                    : "hover:text-foreground"
+                }`}
+              >
+                Default
+              </button>
+              <button
+                type="button"
+                onClick={() => setLongBio(true)}
+                className={`rounded-full px-3 py-1 type-caption transition-colors ${
+                  longBio
+                    ? "bg-surface-elevated text-foreground shadow-sm"
+                    : "hover:text-foreground"
+                }`}
+              >
+                Long
+              </button>
+            </fieldset>
+          </div>
+          <p className="type-body">
+            {longBio ? about.bioLong : about.bioShort}
+          </p>
+        </section>
 
-      <SectionView id="work" fullView>
-        <ShowcaseGrid tiles={showcaseTiles} />
-      </SectionView>
+        <section id="notes" aria-labelledby="notes-heading">
+          <h2 id="notes-heading" className="type-subheading">
+            Notes
+          </h2>
+          <ul className="mt-5 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+            {notes.map((note) => (
+              <li key={note.title}>
+                <a href={note.href} className="accent-underline type-body">
+                  {note.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      <ThinkingSection />
+        <section id="writing" aria-labelledby="writing-heading">
+          <h2 id="writing-heading" className="type-subheading">
+            Writing
+          </h2>
+          <ul className="mt-5 divide-y divide-separator border-y border-separator">
+            {writings.map((entry) => (
+              <li key={entry.title}>
+                <a
+                  href={entry.href}
+                  className="group flex items-baseline justify-between gap-6 py-3.5"
+                >
+                  <span className="type-body transition-colors group-hover:text-accent">
+                    {entry.title}
+                  </span>
+                  <time className="type-caption shrink-0">{entry.date}</time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      <ElsewhereSection />
-      <BottomDockNav />
+        <footer className="flex flex-wrap gap-x-5 gap-y-2">
+          <a
+            href={`mailto:${links.email}`}
+            className="type-caption hover:text-foreground"
+          >
+            Email
+          </a>
+          <a
+            href={links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="type-caption hover:text-foreground"
+          >
+            GitHub
+          </a>
+          <a
+            href={links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="type-caption hover:text-foreground"
+          >
+            LinkedIn
+          </a>
+          <a
+            href={links.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="type-caption hover:text-foreground"
+          >
+            X
+          </a>
+        </footer>
+      </div>
+
+      <FolderNav />
     </main>
   );
 }
