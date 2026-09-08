@@ -2,8 +2,10 @@
 
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import folderIcon from "@/assets/icons/folder.png";
 import { useTheme } from "@/components/theme-provider";
 import { links } from "@/utils/constants";
 
@@ -156,14 +158,14 @@ export default function FolderNav() {
             ? navItems.map((item, index) => {
                 const layout = orbLayout[index] ?? orbLayout[0];
                 const className = clsx(
-                  "nav-orb absolute bottom-16 left-1/2 z-10 flex size-14 flex-col items-center justify-center rounded-2xl transition-colors hover:border-accent/40 hover:text-accent",
+                  "nav-orb absolute bottom-16 left-1/2 z-10 flex size-14 flex-col items-center justify-center gap-1 rounded-2xl px-1.5 py-2 transition-colors hover:border-accent/40 hover:text-accent",
                   exiting ? "nav-orb-exit" : "nav-orb-enter",
                 );
 
                 const content = (
                   <>
                     <Icon icon={item.icon} width={20} height={20} />
-                    <span className="mt-1 text-[10px] font-medium tracking-[0.02em] text-muted">
+                    <span className="text-[10px] leading-none font-medium tracking-[0.02em] text-muted">
                       {item.label}
                     </span>
                   </>
@@ -234,22 +236,31 @@ export default function FolderNav() {
             aria-expanded={open && !exiting}
             aria-controls={labelId}
             aria-label={open ? "Close menu" : "Open menu"}
+            id={labelId}
             className={clsx(
-              "group relative z-20 flex h-[4.35rem] w-[5.6rem] items-end justify-center outline-none transition-transform duration-300 ease-out",
+              "folder-trigger relative z-20 flex w-[4.75rem] flex-col items-center gap-1 outline-none transition-transform duration-300 ease-out",
               open && !exiting
-                ? "-translate-y-1 scale-[1.04]"
-                : "hover:-translate-y-0.5 active:scale-[0.98]",
+                ? "-translate-y-1 scale-105"
+                : "hover:-translate-y-0.5 active:scale-[0.97]",
             )}
           >
-            <span className="folder-tab absolute top-0 left-2.5 h-3.5 w-11 rounded-t-[0.45rem]" />
-            <span className="folder-face absolute inset-x-0 bottom-0 flex h-[3.4rem] items-end justify-center overflow-hidden rounded-[0.9rem] pb-2">
-              <span className="absolute inset-x-0 top-0 h-px bg-white/45" />
-              <span
-                id={labelId}
-                className="relative text-[0.68rem] font-semibold tracking-[0.06em] text-white"
-              >
-                Menu
-              </span>
+            <Image
+              src={folderIcon}
+              alt=""
+              width={72}
+              height={72}
+              priority
+              className="pointer-events-none size-[4.5rem] select-none object-contain drop-shadow-[0_10px_24px_rgb(0_0_0_/_0.28)]"
+            />
+            <span
+              className={clsx(
+                "max-w-full truncate rounded-md px-1.5 py-0.5 text-center font-serif text-[13px] leading-tight transition-colors",
+                open && !exiting
+                  ? "bg-accent text-accent-foreground"
+                  : "text-foreground",
+              )}
+            >
+              navigate
             </span>
           </button>
         </div>
