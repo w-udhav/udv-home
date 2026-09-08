@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function ExperiencePage() {
   return (
     <SiteShell>
-      <PageHeader title="Experience" />
+      <PageHeader title="Experience" crumbs={[{ label: "Experience" }]} />
       <p className="type-body">
         Full-time and internships, newest first. Product stories for Orbitaim
         and Wendor also live under{" "}

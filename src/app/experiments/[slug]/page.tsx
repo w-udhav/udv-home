@@ -33,7 +33,13 @@ export default async function ExperimentDetailPage({ params }: Props) {
 
   return (
     <SiteShell>
-      <PageHeader title={item.title} href="/experiments" />
+      <PageHeader
+        title={item.title}
+        crumbs={[
+          { label: "Experiments", href: "/experiments" },
+          { label: item.title },
+        ]}
+      />
       <p className="type-caption">
         {item.role}
         {item.dates ? ` · ${item.dates}` : ""}

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <SiteShell>
-      <PageHeader title="Work" />
+      <PageHeader title="Work" crumbs={[{ label: "Work" }]} />
       <p className="type-body">
         Selected product stories. Employment history lives on{" "}
         <Link href="/experience" className="note-link">

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function ExperimentsPage() {
   return (
     <SiteShell>
-      <PageHeader title="Experiments" />
+      <PageHeader title="Experiments" crumbs={[{ label: "Experiments" }]} />
       <p className="type-body">
         Personal projects and internship builds. Client work is under{" "}
         <Link href="/work" className="note-link">

@@ -40,7 +40,13 @@ export default async function ExperienceDetailPage({ params }: Props) {
 
   return (
     <SiteShell>
-      <PageHeader title={job.company} href="/experience" />
+      <PageHeader
+        title={job.company}
+        crumbs={[
+          { label: "Experience", href: "/experience" },
+          { label: job.company },
+        ]}
+      />
       <p className="type-caption">
         {job.title} · {job.type} · {job.dates}
       </p>
