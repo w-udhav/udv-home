@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: links.linkedin,
+    url: links.site,
     title: `${about.name} — ${about.title}`,
     description: about.description,
     siteName: about.name,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: about.description,
   },
   alternates: {
-    canonical: links.linkedin,
+    canonical: links.site,
   },
   other: {
     sameAs: [links.github, links.linkedin, links.instagram].join(","),

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import folderIcon from "@/assets/icons/folder.png";
 import { useTheme } from "@/components/theme-provider";
-import { links } from "@/utils/constants";
 
 type NavItem = {
   id: string;
@@ -22,27 +21,26 @@ const baseItems: NavItem[] = [
   {
     id: "home",
     label: "Home",
-    href: "#top",
+    href: "/",
     icon: "lucide:house",
   },
   {
-    id: "notes",
-    label: "Notes",
-    href: "#notes",
-    icon: "lucide:notebook-pen",
+    id: "work",
+    label: "Work",
+    href: "/work",
+    icon: "lucide:briefcase",
   },
   {
-    id: "writing",
-    label: "Writing",
-    href: "#writing",
-    icon: "lucide:book-open",
+    id: "experience",
+    label: "Experience",
+    href: "/experience",
+    icon: "lucide:layers",
   },
   {
-    id: "github",
-    label: "GitHub",
-    href: links.github,
-    icon: "lucide:github",
-    external: true,
+    id: "experiments",
+    label: "Experiments",
+    href: "/experiments",
+    icon: "lucide:flask-conical",
   },
   {
     id: "theme",
@@ -158,7 +156,7 @@ export default function FolderNav() {
             ? navItems.map((item, index) => {
                 const layout = orbLayout[index] ?? orbLayout[0];
                 const className = clsx(
-                  "nav-orb absolute bottom-16 left-1/2 z-10 flex size-14 flex-col items-center justify-center gap-1 rounded-2xl px-1.5 py-2 transition-colors hover:border-accent/40 hover:text-accent",
+                  "nav-orb absolute bottom-16 left-1/2 z-10 flex h-14 w-[4.35rem] flex-col items-center justify-center gap-1 rounded-2xl px-1 py-2 transition-colors hover:border-accent/40 hover:text-accent",
                   exiting ? "nav-orb-exit" : "nav-orb-enter",
                 );
 

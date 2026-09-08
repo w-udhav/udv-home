@@ -1,145 +1,125 @@
-"use client";
-
-import { useState } from "react";
-import FolderNav from "@/components/folder-nav";
-import { about, links, notes, writings } from "@/utils/constants";
+import Image from "next/image";
+import Link from "next/link";
+import profileImage from "@/assets/profile.png";
+import BioToggle from "@/components/bio-toggle";
+import EntryRow from "@/components/entry-row";
+import SiteFooter from "@/components/site-footer";
+import SiteShell from "@/components/site-shell";
+import {
+  employment,
+  experiments,
+  getWorkCase,
+  identity,
+  landingSelectedWork,
+} from "@/data/resume";
 
 export default function Home() {
-  const [longBio, setLongBio] = useState(false);
+  const selectedWork = landingSelectedWork
+    .map((slug) => getWorkCase(slug))
+    .filter((item) => item != null);
 
   return (
-    <main id="top" className="page-atmosphere min-h-dvh pb-44">
-      <div className="mx-auto w-full max-w-screen-2xl px-6 pt-14 sm:px-10 sm:pt-16 lg:px-14">
-        <div className="flex max-w-3xl flex-col gap-10 sm:gap-12">
-          <header>
-            <h1 className="type-heading">{about.handle}</h1>
-          </header>
-
-          <section
-            aria-labelledby="bio-heading"
-            className="border-b border-separator pb-10 sm:pb-12"
-          >
-            <div className="mb-4 flex items-center gap-5 border-b border-separator pb-2">
-              <h2 id="bio-heading" className="type-caption">
-                Bio
-              </h2>
-              <fieldset
-                aria-label="Bio length"
-                className="m-0 flex items-center gap-4 border-0 p-0"
-              >
-                <button
-                  type="button"
-                  onClick={() => setLongBio(false)}
-                  className={`type-caption transition-colors ${
-                    !longBio
-                      ? "text-foreground underline decoration-foreground/35 underline-offset-[6px]"
-                      : "hover:text-foreground"
-                  }`}
-                >
-                  Default
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setLongBio(true)}
-                  className={`type-caption transition-colors ${
-                    longBio
-                      ? "text-foreground underline decoration-foreground/35 underline-offset-[6px]"
-                      : "hover:text-foreground"
-                  }`}
-                >
-                  Long
-                </button>
-              </fieldset>
-            </div>
-            <div className="type-body space-y-4">
-              {longBio ? (
-                about.bioLong
-                  .split("\n\n")
-                  .map((paragraph) => (
-                    <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-                  ))
-              ) : (
-                <p>{about.bioShort}</p>
-              )}
-            </div>
-          </section>
-
-          <section id="notes" aria-labelledby="notes-heading">
-            <h2 id="notes-heading" className="type-subheading">
-              Notes
-            </h2>
-            <ul className="mt-4 grid max-w-xl grid-cols-1 gap-x-12 gap-y-2 sm:grid-cols-2">
-              {notes.map((note) => (
-                <li key={note.title} className="flex items-start gap-2.5">
-                  <span
-                    aria-hidden
-                    className="mt-[0.55em] size-1.5 shrink-0 bg-foreground-soft"
-                  />
-                  <a href={note.href} className="note-link type-body">
-                    {note.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section id="writing" aria-labelledby="writing-heading">
-            <h2 id="writing-heading" className="type-subheading">
-              Writing
-            </h2>
-            <ul className="mt-4 divide-y divide-separator border-y border-separator">
-              {writings.map((entry) => (
-                <li key={entry.title}>
-                  <a
-                    href={entry.href}
-                    className="group flex items-baseline justify-between gap-8 py-3"
-                  >
-                    <span className="type-body transition-colors group-hover:text-accent">
-                      {entry.title}
-                    </span>
-                    <time className="type-caption shrink-0">{entry.date}</time>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <footer className="flex flex-wrap gap-x-5 gap-y-2 pt-2">
-            <a
-              href={`mailto:${links.email}`}
-              className="type-caption hover:text-foreground"
-            >
-              Email
-            </a>
-            <a
-              href={links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="type-caption hover:text-foreground"
-            >
-              GitHub
-            </a>
-            <a
-              href={links.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="type-caption hover:text-foreground"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={links.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="type-caption hover:text-foreground"
-            >
-              X
-            </a>
-          </footer>
+    <SiteShell>
+      <header className="flex items-start gap-5">
+        <Image
+          src={profileImage}
+          alt=""
+          width={56}
+          height={56}
+          priority
+          className="mt-1 size-14 rounded-full object-cover"
+        />
+        <div>
+          <h1 className="type-heading">{identity.handle}</h1>
+          <p className="type-caption mt-2">{identity.title}</p>
         </div>
-      </div>
+      </header>
 
-      <FolderNav />
-    </main>
+      <BioToggle />
+
+      <section aria-labelledby="now-heading">
+        <h2 id="now-heading" className="type-caption mb-3">
+          Now
+        </h2>
+        <p className="type-body">
+          Software Developer Engineer at Orbitaim — a pre-launch B2B outreach
+          platform. Before that, Software Engineer at Wendor, where I cut
+          machine-status and order API time from about 15s to about 3s and
+          improved dashboard load by 40–60%.
+        </p>
+      </section>
+
+      <section aria-labelledby="work-heading">
+        <div className="mb-1 flex items-baseline justify-between gap-4">
+          <h2 id="work-heading" className="type-subheading">
+            Work
+          </h2>
+          <Link href="/work" className="type-caption hover:text-foreground">
+            All
+          </Link>
+        </div>
+        <div>
+          {selectedWork.map((item) => (
+            <EntryRow
+              key={item.slug}
+              href={`/work/${item.slug}`}
+              title={item.title}
+              description={item.lede}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="experience-heading">
+        <div className="mb-1 flex items-baseline justify-between gap-4">
+          <h2 id="experience-heading" className="type-subheading">
+            Experience
+          </h2>
+          <Link
+            href="/experience"
+            className="type-caption hover:text-foreground"
+          >
+            All
+          </Link>
+        </div>
+        <div>
+          {employment.map((job) => (
+            <EntryRow
+              key={job.slug}
+              href={`/experience/${job.slug}`}
+              title={job.company}
+              description={job.title}
+              meta={job.status === "current" ? "Current" : job.dates}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="experiments-heading">
+        <div className="mb-1 flex items-baseline justify-between gap-4">
+          <h2 id="experiments-heading" className="type-subheading">
+            Experiments
+          </h2>
+          <Link
+            href="/experiments"
+            className="type-caption hover:text-foreground"
+          >
+            All
+          </Link>
+        </div>
+        <div>
+          {experiments.slice(0, 3).map((item) => (
+            <EntryRow
+              key={item.slug}
+              href={`/experiments/${item.slug}`}
+              title={item.title}
+              description={item.lede}
+            />
+          ))}
+        </div>
+      </section>
+
+      <SiteFooter />
+    </SiteShell>
   );
 }
