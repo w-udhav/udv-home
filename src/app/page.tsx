@@ -1,62 +1,125 @@
-"use client";
-
-import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
-import BottomDockNav from "@/components/ui/bottom-dock-nav";
-import Button from "@/components/ui/button";
-import ButtonGroup from "@/components/ui/button-group";
-import ElsewhereSection from "@/components/ui/elsewhere-section";
-import SectionView from "@/components/ui/section-view";
-import ShowcaseGrid from "@/components/ui/showcase-grid";
-import ThinkingSection from "@/components/ui/thinking-section";
-import { showcaseTiles } from "@/utils/showcase-tiles";
-
-const greetings = ["Hello", "Hola", "नमस्ते", "你好", "Bonjour"];
+import Image from "next/image";
+import Link from "next/link";
+import profileImage from "@/assets/profile.png";
+import BioToggle from "@/components/bio-toggle";
+import EntryRow from "@/components/entry-row";
+import SiteFooter from "@/components/site-footer";
+import SiteShell from "@/components/site-shell";
+import {
+  employment,
+  experiments,
+  getWorkCase,
+  identity,
+  landingSelectedWork,
+} from "@/data/resume";
 
 export default function Home() {
-  const [greetingIndex, setGreetingIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGreetingIndex((prev) => (prev + 1) % greetings.length);
-    }, 1600);
-
-    return () => clearInterval(interval);
-  }, []);
+  const selectedWork = landingSelectedWork
+    .map((slug) => getWorkCase(slug))
+    .filter((item) => item != null);
 
   return (
-    <main>
-      {/* Hero */}
-      <SectionView className="flex flex-col gap-10 py-24">
-        {/* Greeting - name */}
-        <div className="flex flex-col gap-2 text-5xl font-serif">
-          <h1>{greetings[greetingIndex]}</h1>
-          <h1>i'm</h1>
-          <h1>udhav .</h1>
-        </div>
-        <div className="grid grid-cols-6">
-          <h3 className="col-span-4 font-serif text-xl text-zinc-200">
-            i design and build thoughtful digital experiences. this space is a
-            clean starting point for projects, writing, and contact details.
-          </h3>
-        </div>
-
-        {/* Dimension of me */}
+    <SiteShell>
+      <header className="flex items-start gap-5">
+        <Image
+          src={profileImage}
+          alt=""
+          width={56}
+          height={56}
+          priority
+          className="mt-1 size-14 rounded-full object-cover"
+        />
         <div>
-          <Button endIcon={<Icon icon="line-md:arrow-right" width={20} />}>
-            Say hi
-          </Button>
+          <h1 className="type-heading">{identity.handle}</h1>
+          <p className="type-caption mt-2">{identity.title}</p>
         </div>
-      </SectionView>
+      </header>
 
-      <SectionView id="work" fullView>
-        <ShowcaseGrid tiles={showcaseTiles} />
-      </SectionView>
+      <BioToggle />
 
-      <ThinkingSection />
+      <section aria-labelledby="now-heading">
+        <h2 id="now-heading" className="type-caption mb-3">
+          Now
+        </h2>
+        <p className="type-body">
+          Software Developer Engineer at Orbitaim — a pre-launch B2B outreach
+          platform. Before that, Software Engineer at Wendor, where I cut
+          machine-status and order API time from about 15s to about 3s and
+          improved dashboard load by 40–60%.
+        </p>
+      </section>
 
-      <ElsewhereSection />
-      <BottomDockNav />
-    </main>
+      <section aria-labelledby="work-heading">
+        <div className="mb-1 flex items-baseline justify-between gap-4">
+          <h2 id="work-heading" className="type-subheading">
+            Work
+          </h2>
+          <Link href="/work" className="type-caption hover:text-foreground">
+            All
+          </Link>
+        </div>
+        <div>
+          {selectedWork.map((item) => (
+            <EntryRow
+              key={item.slug}
+              href={`/work/${item.slug}`}
+              title={item.title}
+              description={item.lede}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="experience-heading">
+        <div className="mb-1 flex items-baseline justify-between gap-4">
+          <h2 id="experience-heading" className="type-subheading">
+            Experience
+          </h2>
+          <Link
+            href="/experience"
+            className="type-caption hover:text-foreground"
+          >
+            All
+          </Link>
+        </div>
+        <div>
+          {employment.map((job) => (
+            <EntryRow
+              key={job.slug}
+              href={`/experience/${job.slug}`}
+              title={job.company}
+              description={job.title}
+              meta={job.status === "current" ? "Current" : job.dates}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="experiments-heading">
+        <div className="mb-1 flex items-baseline justify-between gap-4">
+          <h2 id="experiments-heading" className="type-subheading">
+            Experiments
+          </h2>
+          <Link
+            href="/experiments"
+            className="type-caption hover:text-foreground"
+          >
+            All
+          </Link>
+        </div>
+        <div>
+          {experiments.slice(0, 3).map((item) => (
+            <EntryRow
+              key={item.slug}
+              href={`/experiments/${item.slug}`}
+              title={item.title}
+              description={item.lede}
+            />
+          ))}
+        </div>
+      </section>
+
+      <SiteFooter />
+    </SiteShell>
   );
 }

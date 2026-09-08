@@ -1,16 +1,20 @@
+import { identity } from "@/data/resume";
+
 const about = {
-  name: "Udhav Wadhawan",
-  title: "Software Engineer",
+  name: identity.name,
+  handle: identity.handle,
+  title: identity.title,
   description:
-    "I design and build thoughtful digital experiences. This space is a clean starting point for projects, writing, and contact details.",
+    "Software engineer. Interfaces, APIs, and systems — currently Software Developer Engineer at Orbitaim.",
 };
 
 const links = {
-  email: "udhavwadhawan@hotmail.com",
-  github: "https://github.com/w-udhav",
-  linkedin: "https://www.linkedin.com/in/w-udhav",
-  instagram: "https://www.instagram.com/w_udhav/",
-  twitter: "https://x.com/angerastra",
+  email: identity.email,
+  github: identity.github,
+  linkedin: identity.linkedin,
+  instagram: identity.instagram,
+  twitter: identity.twitter,
+  site: identity.portfolio,
 };
 
 export { about, links };
