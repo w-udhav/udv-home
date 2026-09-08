@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { bio } from "@/data/resume";
+import { bio, identity } from "@/data/resume";
 
 export default function BioToggle() {
   const [longBio, setLongBio] = useState(false);
@@ -52,6 +52,38 @@ export default function BioToggle() {
           <p>{bio.short}</p>
         )}
       </div>
+      <p className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+        <a
+          href={`mailto:${identity.email}`}
+          className="type-caption hover:text-foreground"
+        >
+          Email
+        </a>
+        <a
+          href={identity.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="type-caption hover:text-foreground"
+        >
+          GitHub
+        </a>
+        <a
+          href={identity.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="type-caption hover:text-foreground"
+        >
+          LinkedIn
+        </a>
+        <a
+          href={identity.twitter}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="type-caption hover:text-foreground"
+        >
+          X
+        </a>
+      </p>
     </section>
   );
 }

@@ -33,7 +33,10 @@ export default async function WorkCasePage({ params }: Props) {
 
   return (
     <SiteShell>
-      <PageHeader title={item.title} href="/work" />
+      <PageHeader
+        title={item.title}
+        crumbs={[{ label: "Work", href: "/work" }, { label: item.title }]}
+      />
       <p className="type-caption">
         {item.eyebrow} · {item.role} · {item.dates}
       </p>

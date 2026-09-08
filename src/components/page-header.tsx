@@ -1,27 +1,45 @@
 import Link from "next/link";
 import { identity } from "@/data/resume";
 
-type PageHeaderProps = {
-  title: string;
+export type Crumb = {
+  label: string;
   href?: string;
 };
 
-export default function PageHeader({ title, href }: PageHeaderProps) {
+type PageHeaderProps = {
+  title: string;
+  crumbs: Crumb[];
+};
+
+export default function PageHeader({ title, crumbs }: PageHeaderProps) {
   return (
     <header className="flex flex-col gap-6">
-      <p className="type-caption">
-        <Link href="/" className="hover:text-foreground">
-          {identity.handle}
-        </Link>
-        <span className="text-separator"> / </span>
-        {href ? (
-          <Link href={href} className="hover:text-foreground">
-            {title}
-          </Link>
-        ) : (
-          <span className="text-foreground">{title}</span>
-        )}
-      </p>
+      <nav aria-label="Breadcrumb" className="type-caption">
+        <ol className="flex flex-wrap items-center gap-x-1.5">
+          <li>
+            <Link href="/" className="hover:text-foreground">
+              {identity.handle}
+            </Link>
+          </li>
+          {crumbs.map((crumb) => (
+            <li
+              key={`${crumb.href ?? ""}-${crumb.label}`}
+              className="flex items-center gap-x-1.5"
+            >
+              <span aria-hidden className="text-muted">
+                /
+              </span>
+              {crumb.href ? (
+                <Link href={crumb.href} className="hover:text-foreground">
+                  {crumb.label}
+                </Link>
+              ) : (
+                <span className="text-foreground">{crumb.label}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
       <h1 className="type-heading">{title}</h1>
     </header>
   );

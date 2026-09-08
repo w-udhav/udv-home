@@ -3,7 +3,6 @@ import Link from "next/link";
 import profileImage from "@/assets/profile.png";
 import BioToggle from "@/components/bio-toggle";
 import EntryRow from "@/components/entry-row";
-import SiteFooter from "@/components/site-footer";
 import SiteShell from "@/components/site-shell";
 import {
   employment,
@@ -118,8 +117,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      <SiteFooter />
     </SiteShell>
   );
 }
