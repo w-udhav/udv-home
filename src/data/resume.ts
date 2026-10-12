@@ -9,7 +9,7 @@ export const identity = {
   handle: "@udhav",
   title: "Software Engineer",
   phone: "+91 7347542936",
-  email: "udhavwadhawan@hotmail.com",
+  email: "wadhawan.udhav@gmail.com",
   portfolio: "https://www.udhv.space/",
   linkedin: "https://linkedin.com/in/w-udhav",
   github: "https://github.com/w-udhav",
@@ -29,7 +29,7 @@ export const bio = {
     "Software engineer. I design and build product interfaces and the systems underneath them — currently at Orbitaim, previously at Wendor.",
   long: [
     "I work across product UI and backend systems: React and Next.js on the surface, Node, SQL, and infrastructure underneath. The through-line is making software feel native the first time someone uses it.",
-    "At Orbitaim I am a Software Developer Engineer on a pre-launch B2B outreach platform — bulk email, dashboard UI, CMS, and production readiness. Before that, at Wendor, I spent my time on dashboard and API performance for a vending inventory product.",
+    "At Orbitaim I am a Software Developer Engineer on a B2B outreach platform used by clients — bulk email, billing, WhatsApp, dashboard UI, and CMS. Before that, at Wendor, I spent my time on dashboard and API performance for a vending inventory product.",
     "This site is a quiet home for selected work, employment history, and experiments. Reach me by email or LinkedIn.",
   ],
 };
@@ -37,9 +37,9 @@ export const bio = {
 export const skills = {
   languages: ["TypeScript", "JavaScript", "SQL"],
   frontend: ["React", "Next.js", "React Query"],
-  backend: ["Node.js", "NestJS", "Express", "REST APIs"],
-  data: ["PostgreSQL", "Redis", "Prisma"],
-  infrastructure: ["AWS", "Docker", "GitHub Actions"],
+  backend: ["Node.js", "NestJS", "Express", "REST APIs", "BullMQ", "Socket.IO"],
+  data: ["PostgreSQL", "MongoDB", "Redis", "Prisma"],
+  infrastructure: ["AWS (SES, RDS, S3)", "Docker", "GitHub Actions"],
 };
 
 export type Employment = {
@@ -66,13 +66,15 @@ export const employment: Employment[] = [
     status: "current",
     type: "Full-time · small startup",
     summary:
-      "AI-powered B2B marketing and sales outreach: lead prospecting, multi-channel campaigns (cold email, bulk email via SES, LinkedIn, WhatsApp), AI content, analytics, and billing. Official launch is upcoming — the product is not launched yet. Work is refactoring, business logic, UI redesign, and pre-launch production readiness on a codebase that predates me.",
+      "AI-powered B2B marketing and sales outreach: lead prospecting, multi-channel campaigns (cold email, bulk email via SES, LinkedIn, WhatsApp), AI content, analytics, and billing. The product is in production and used by clients. My work is bulk email, billing, WhatsApp, business logic, UI redesign, and production readiness on a codebase that predates me.",
     bullets: [
-      "Designed and built a bulk-email microservice end to end — SES webhook ingestion, queue-based dispatch, and real-time delivery events into the campaign dashboard — integrated across the API gateway and frontend. Sole owner of the bulk-emailer service.",
-      "Implemented a sending-reputation tier system (tiers 0–3) with sliding 24-hour send limits and bounce-based circuit breakers for bulk-email dispatch scheduling. Production status of this system is not confirmed.",
+      "Designed and built a bulk-email microservice as sole author (Express, BullMQ, PostgreSQL/Prisma): HMAC-verified, idempotent AWS SES webhook ingestion with Redis pub/sub and Socket.IO streaming live delivery events into the campaign dashboard, plus CI/CD. Used in production by clients.",
+      "Implemented a sending-reputation tier system (tiers 0–3) with sliding 24-hour send limits and bounce-based circuit breakers to throttle bulk-email dispatch and protect sender reputation.",
+      "Re-architected subscription billing around a versioned price book and shared pricing engine, snapshotting line items and granted credits on orders and migrating legacy plans to FREE/PRO/CUSTOM.",
+      "Built credit-metered Meta WhatsApp campaign sending: per-send billing in the BullMQ worker, send-window-aware scheduling, and gateway endpoints with dashboard screens. A shared channel effort with teammates.",
       "Redesigned the authenticated product dashboard with shared table and pagination primitives, design-token alignment, and rebuilt home, news, leads, and settings flows.",
       "Built a Strapi 5 headless CMS from scratch and integrated typed CMS content across the marketing site and dashboard navigation. Schema work was partly joint.",
-      "Security-hardened the cold-emailer with ownership authorization middleware, admin queue protection, and an API regression gate.",
+      "Hardened the cold-email service with resource-ownership authorization middleware and a protected admin queue dashboard, gating releases with unit tests and a Newman API suite in GitHub Actions.",
     ],
     technologies: [
       "Next.js 16",
@@ -150,9 +152,9 @@ export const employment: Employment[] = [
     title: "iOS Developer Intern",
     dates: "May 2024 – June 2024",
     status: "completed",
-    type: "Internship · iOS Developer Program — Cohort 1",
+    type: "4-week internship · Apple developer program, after ~4 months of college training",
     summary:
-      "About two months. Primary project: Hospital Management System (vena-ios + vena-server). I built the REST API nearly end-to-end, restructured the SwiftUI app into role-based modules, and stepped in mid-project as team lead of 9. Overlapped with Credanic in May 2024 — Credanic was part-time college work; Infosys was a separate internship.",
+      "A 4-week internship in the Apple developer program, following about four months of training at college. Primary project: a hospital management system app (vena-ios + vena-server). I built the REST API nearly end-to-end, restructured the SwiftUI app into role-based modules, and stepped in mid-project as team lead of 9. Overlapped with Credanic in May 2024 — Credanic was part-time college work; Infosys was a separate internship.",
     bullets: [
       "Built the hospital management REST API nearly end-to-end: JWT role-based access, a 10-model domain schema, unified multi-role login, and an appointment engine with conflict validation.",
       "Restructured the SwiftUI app into Admin, Doctor, and Patient role-based modules. The initial Xcode boilerplate was a teammate’s — I did not build the iOS app from scratch.",
@@ -246,11 +248,11 @@ export const workCases: WorkCase[] = [
     slug: "orbitaim",
     title: "Orbitaim",
     eyebrow: "Current",
-    lede: "Pre-launch B2B outreach — bulk email, dashboard, CMS, and production readiness.",
+    lede: "B2B outreach in production — bulk email, billing, WhatsApp, dashboard, and CMS.",
     dates: "June 2026 – Present",
     role: "Software Developer Engineer",
     summary:
-      "Orbitaim is a small startup building an AI-powered B2B outreach platform. The official launch is upcoming; the product is not launched. The platform predates me. I own listed work: bulk email, dashboard UI, CMS integration, security hardening, and launch prep.",
+      "Orbitaim is a small startup building an AI-powered B2B outreach platform. The product is in production and used by clients. The platform predates me. I own listed work: bulk email, billing, WhatsApp sending, dashboard UI, CMS integration, and security hardening.",
     sections: [
       {
         heading: "What I own",
@@ -263,8 +265,9 @@ export const workCases: WorkCase[] = [
       {
         heading: "Systems work",
         paragraphs: [
-          "A sending-reputation tier system (tiers 0–3) applies sliding 24-hour limits and bounce circuit breakers to bulk dispatch. I will not claim that system is live in production — that status is unknown.",
+          "A sending-reputation tier system (tiers 0–3) applies sliding 24-hour limits and bounce circuit breakers to bulk dispatch. ",
           "On the cold-emailer I added ownership authorization middleware, admin queue protection, and an API regression gate.",
+          "I re-architected subscription billing around a versioned price book and shared pricing engine, and built credit-metered Meta WhatsApp sending with send-window-aware scheduling. WhatsApp was a shared effort with teammates.",
         ],
       },
     ],
