@@ -41,8 +41,8 @@ export default function Home() {
           Now
         </h2>
         <p className="type-body">
-          Software Developer Engineer at Orbitaim — a pre-launch B2B outreach
-          platform. Before that, Software Engineer at Wendor, where I cut
+          Software Developer Engineer at Orbitaim — a B2B outreach platform used
+          by clients. Before that, Software Engineer at Wendor, where I cut
           machine-status and order API time from about 15s to about 3s and
           improved dashboard load by 40–60%.
         </p>
