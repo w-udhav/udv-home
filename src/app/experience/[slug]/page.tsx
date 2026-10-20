@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Facts, Pager, Stack } from "@/components/detail-blocks";
 import PageHeader from "@/components/page-header";
+import Section from "@/components/section";
 import SiteShell from "@/components/site-shell";
-import { employment, getEmployment, getWorkCase } from "@/data/resume";
+import {
+  employment,
+  getEmployment,
+  getExperiment,
+  getWorkCase,
+} from "@/data/resume";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -47,98 +54,79 @@ export default async function ExperienceDetailPage({ params }: Props) {
           { label: job.company },
         ]}
       />
-      <p className="type-caption">
-        {job.title} · {job.type} · {job.dates}
-      </p>
-      <p className="type-body">{job.summary}</p>
+      <div className="grid gap-12 lg:grid-cols-3 lg:gap-16">
+        <div className="flex flex-col gap-10 lg:col-span-2">
+          <p className="type-body text-foreground">{job.summary}</p>
+          <Section id="work-heading" title="What I did">
+            <ul className="type-body list-disc space-y-3 pl-5">
+              {job.bullets.map((bullet) => (
+                <li key={bullet.slice(0, 48)}>{bullet}</li>
+              ))}
+            </ul>
+          </Section>
+          {job.notes && job.notes.length > 0 ? (
+            <Section id="notes-heading" title="Notes">
+              <ul className="type-body list-disc space-y-2 pl-5">
+                {job.notes.map((note) => (
+                  <li key={note}>{note}</li>
+                ))}
+              </ul>
+            </Section>
+          ) : null}
+        </div>
+        <aside className="flex flex-col gap-10">
+          <Facts
+            facts={[
+              { label: "Title", value: job.title },
+              { label: "Type", value: job.type },
+              { label: "Dates", value: job.dates },
+            ]}
+          />
+          {job.technologies.length > 0 ? (
+            <Section id="tech-heading" title="Stack">
+              <Stack items={job.technologies} />
+            </Section>
+          ) : null}
+          {relatedWork.length > 0 ||
+          (job.relatedExperiments && job.relatedExperiments.length > 0) ? (
+            <Section id="related-heading" title="Related">
+              <div className="flex flex-col items-start gap-1">
+                {relatedWork.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/work/${item.slug}`}
+                    className="text-toggle"
+                  >
+                    Product story: {item.title} →
+                  </Link>
+                ))}
+                {(job.relatedExperiments ?? []).map((expSlug) => (
+                  <Link
+                    key={expSlug}
+                    href={`/experiments/${expSlug}`}
+                    className="text-toggle"
+                  >
+                    Project: {getExperiment(expSlug)?.title ?? expSlug} →
+                  </Link>
+                ))}
+              </div>
+            </Section>
+          ) : null}
+        </aside>
+      </div>
 
-      <section aria-labelledby="work-heading">
-        <h2 id="work-heading" className="type-subheading mb-4">
-          Work
-        </h2>
-        <ul className="type-body list-disc space-y-3 pl-5">
-          {job.bullets.map((bullet) => (
-            <li key={bullet.slice(0, 48)}>{bullet}</li>
-          ))}
-        </ul>
-      </section>
-
-      {job.technologies.length > 0 ? (
-        <section aria-labelledby="tech-heading">
-          <h2 id="tech-heading" className="type-caption mb-3">
-            Stack
-          </h2>
-          <p className="type-body">{job.technologies.join(", ")}</p>
-        </section>
-      ) : null}
-
-      {job.notes && job.notes.length > 0 ? (
-        <section aria-labelledby="notes-heading">
-          <h2 id="notes-heading" className="type-caption mb-3">
-            Notes
-          </h2>
-          <ul className="type-body list-disc space-y-2 pl-5">
-            {job.notes.map((note) => (
-              <li key={note}>{note}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {relatedWork.length > 0 ? (
-        <p className="type-caption">
-          Product story:{" "}
-          {relatedWork.map((item, i) => (
-            <span key={item.slug}>
-              {i > 0 ? ", " : null}
-              <Link
-                href={`/work/${item.slug}`}
-                className="hover:text-foreground"
-              >
-                {item.title}
-              </Link>
-            </span>
-          ))}
-        </p>
-      ) : null}
-
-      {job.relatedExperiments && job.relatedExperiments.length > 0 ? (
-        <p className="type-caption">
-          Related:{" "}
-          {job.relatedExperiments.map((expSlug, i) => (
-            <span key={expSlug}>
-              {i > 0 ? ", " : null}
-              <Link
-                href={`/experiments/${expSlug}`}
-                className="hover:text-foreground"
-              >
-                project page
-              </Link>
-            </span>
-          ))}
-        </p>
-      ) : null}
-
-      <nav className="flex justify-between gap-6 border-t border-separator pt-6">
-        {previous ? (
-          <Link
-            href={`/experience/${previous.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            ← {previous.company}
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/experience/${next.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            {next.company} →
-          </Link>
-        ) : null}
-      </nav>
+      <Pager
+        previous={
+          previous
+            ? { href: `/experience/${previous.slug}`, label: previous.company }
+            : null
+        }
+        next={
+          next
+            ? { href: `/experience/${next.slug}`, label: next.company }
+            : null
+        }
+      />
     </SiteShell>
   );
 }

@@ -15,14 +15,14 @@ export default function ExperimentsPage() {
   return (
     <SiteShell>
       <PageHeader title="Experiments" crumbs={[{ label: "Experiments" }]} />
-      <p className="type-body">
+      <p className="type-body max-w-3xl">
         Personal projects and internship builds. Client work is under{" "}
         <Link href="/work" className="note-link">
           Work
         </Link>
         .
       </p>
-      <div>
+      <div className="max-w-3xl">
         {experiments.map((item) => (
           <EntryRow
             key={item.slug}
