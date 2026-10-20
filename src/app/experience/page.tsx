@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FactTiles } from "@/components/detail-blocks";
 import EntryRow from "@/components/entry-row";
 import PageHeader from "@/components/page-header";
+import SectionCard from "@/components/section-card";
 import SiteShell from "@/components/site-shell";
 import { education, employment } from "@/data/resume";
 
@@ -23,7 +25,7 @@ export default function ExperiencePage() {
         </Link>
         .
       </p>
-      <div>
+      <div className="card">
         {employment.map((job) => (
           <EntryRow
             key={job.slug}
@@ -34,17 +36,16 @@ export default function ExperiencePage() {
           />
         ))}
       </div>
-      <section aria-labelledby="education-heading">
-        <h2 id="education-heading" className="type-caption mb-2">
-          Education
-        </h2>
-        <p className="type-body">
-          {education.institution} — {education.degree}
-        </p>
-        <p className="type-caption">
-          {education.location} · {education.dates}
-        </p>
-      </section>
+      <SectionCard id="education-heading" title="Education">
+        <p className="type-body mb-3">{education.institution}</p>
+        <FactTiles
+          facts={[
+            { label: "Degree", value: education.degree },
+            { label: "Location", value: education.location },
+            { label: "Dates", value: education.dates },
+          ]}
+        />
+      </SectionCard>
     </SiteShell>
   );
 }

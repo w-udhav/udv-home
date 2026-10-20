@@ -42,6 +42,13 @@
   --shadow-nav: 0 12px 40px rgb(0 0 0 / 0.12);
   --scrollbar-thumb: rgb(60 60 67 / 0.28);
   --scrollbar-thumb-hover: rgb(60 60 67 / 0.42);
+  --tile: rgb(60 60 67 / 0.07);
+  --tile-hover: rgb(60 60 67 / 0.12);
+  --activity-0: var(--tile);
+  --activity-1: rgb(66 112 220 / 0.32);
+  --activity-2: rgb(66 112 220 / 0.55);
+  --activity-3: rgb(66 112 220 / 0.82);
+  --activity-4: rgb(43 92 210);
 }
 
 .dark {
@@ -64,6 +71,12 @@
   --shadow-nav: 0 16px 48px rgb(0 0 0 / 0.45);
   --scrollbar-thumb: rgb(235 235 245 / 0.28);
   --scrollbar-thumb-hover: rgb(235 235 245 / 0.42);
+  --tile: rgb(235 235 245 / 0.06);
+  --tile-hover: rgb(235 235 245 / 0.1);
+  --activity-1: rgb(110 150 245 / 0.3);
+  --activity-2: rgb(110 150 245 / 0.5);
+  --activity-3: rgb(110 150 245 / 0.8);
+  --activity-4: rgb(125 165 255);
 }
 
 @media (prefers-contrast: more) {
@@ -153,35 +166,98 @@ body {
 }
 
 .type-heading {
-  font-family: var(--font-serif);
-  font-size: 42px;
+  font-family: var(--font-sans);
+  font-size: 30px;
   line-height: 1.15;
   font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--foreground);
 }
 
 .type-subheading {
-  font-family: var(--font-serif);
-  font-size: 23px;
-  line-height: 1.3;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
   color: var(--foreground);
 }
 
 .type-body {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  line-height: 27px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 24px;
   font-weight: 400;
   color: var(--foreground-soft);
 }
 
 .type-caption {
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 13px;
+  line-height: 20px;
   font-weight: 400;
   color: var(--muted);
+}
+
+.type-stat {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+/* Surfaces shared by every page, taken from the Claude activity card */
+.card {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 1.25rem;
+  }
+}
+
+.tile {
+  border-radius: 0.625rem;
+  background: var(--tile);
+  padding: 0.5rem 0.75rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.pill-active {
+  background: var(--tile);
+  color: var(--foreground);
+}
+
+a.pill:hover,
+button.pill:hover {
+  color: var(--foreground);
+}
+
+.row-link {
+  border-radius: 0.625rem;
+  transition: background-color 160ms ease;
+}
+
+.row-link:hover,
+.row-link:focus-visible {
+  background: var(--tile);
 }
 
 ::selection {
@@ -281,4 +357,86 @@ body {
 
 .nav-orb-exit {
   animation: nav-orb-out 220ms ease-in both;
+}
+
+/* Claude activity grid: real daily activity sweeps into "UDHAV" and back, 3.6s loop */
+.activity-grid {
+  display: grid;
+  gap: clamp(2px, 0.6vw, 4px);
+}
+
+.activity-cell {
+  aspect-ratio: 1;
+  border-radius: clamp(2px, 0.5vw, 4px);
+  background: var(--base);
+  animation: 3.6s cubic-bezier(0.22, 1, 0.36, 1) var(--delay) infinite both;
+}
+
+.activity-cell-text {
+  animation-name: activity-text;
+}
+
+.activity-cell-day {
+  animation-name: activity-day;
+}
+
+@keyframes activity-text {
+  0%,
+  4% {
+    background: var(--base);
+    transform: scale(1);
+  }
+  10% {
+    background: var(--activity-0);
+  }
+  14% {
+    background: var(--on);
+    transform: scale(0.8);
+  }
+  20% {
+    transform: scale(1.12);
+  }
+  26%,
+  66% {
+    background: var(--on);
+    transform: scale(1);
+  }
+  76% {
+    background: var(--activity-0);
+  }
+  86%,
+  100% {
+    background: var(--base);
+    transform: scale(1);
+  }
+}
+
+@keyframes activity-day {
+  0%,
+  4% {
+    background: var(--base);
+  }
+  14%,
+  72% {
+    background: var(--activity-0);
+  }
+  86%,
+  100% {
+    background: var(--base);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activity-cell {
+    animation: none;
+  }
+
+  .activity-cell-text {
+    background: var(--on);
+  }
+}
+
+.tile.row-link:hover,
+.tile.row-link:focus-visible {
+  background: var(--tile-hover);
 }

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FactTiles, Pager, StackPills } from "@/components/detail-blocks";
 import PageHeader from "@/components/page-header";
+import SectionCard from "@/components/section-card";
 import SiteShell from "@/components/site-shell";
 import { getWorkCase, workCases } from "@/data/resume";
 
@@ -37,69 +39,56 @@ export default async function WorkCasePage({ params }: Props) {
         title={item.title}
         crumbs={[{ label: "Work", href: "/work" }, { label: item.title }]}
       />
-      <p className="type-caption">
-        {item.eyebrow} · {item.role} · {item.dates}
-      </p>
-      <p className="type-body">{item.summary}</p>
+      <FactTiles
+        facts={[
+          { label: "Type", value: item.eyebrow },
+          { label: "Role", value: item.role },
+          { label: "Dates", value: item.dates },
+        ]}
+      />
+      <SectionCard id="overview-heading" title="Overview">
+        <p className="type-body">{item.summary}</p>
+      </SectionCard>
 
       {item.sections.map((section) => (
-        <section
+        <SectionCard
           key={section.heading}
-          aria-labelledby={`${item.slug}-${section.heading}`}
+          id={`${item.slug}-${section.heading}`}
+          title={section.heading}
         >
-          <h2
-            id={`${item.slug}-${section.heading}`}
-            className="type-subheading mb-3"
-          >
-            {section.heading}
-          </h2>
           <div className="type-body space-y-4">
             {section.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 40)}>{paragraph}</p>
             ))}
           </div>
-        </section>
+        </SectionCard>
       ))}
 
-      <section aria-labelledby="tech-heading">
-        <h2 id="tech-heading" className="type-caption mb-3">
-          Stack
-        </h2>
-        <p className="type-body">{item.technologies.join(", ")}</p>
-      </section>
+      <SectionCard
+        id="tech-heading"
+        title="Stack"
+        action={
+          item.experienceSlug ? (
+            <Link
+              href={`/experience/${item.experienceSlug}`}
+              className="pill pill-active"
+            >
+              Employment record
+            </Link>
+          ) : null
+        }
+      >
+        <StackPills items={item.technologies} />
+      </SectionCard>
 
-      {item.experienceSlug ? (
-        <p className="type-caption">
-          Employment record:{" "}
-          <Link
-            href={`/experience/${item.experienceSlug}`}
-            className="hover:text-foreground"
-          >
-            {item.title} on Experience
-          </Link>
-        </p>
-      ) : null}
-
-      <nav className="flex justify-between gap-6 border-t border-separator pt-6">
-        {previous ? (
-          <Link
-            href={`/work/${previous.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            ← {previous.title}
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/work/${next.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            {next.title} →
-          </Link>
-        ) : null}
-      </nav>
+      <Pager
+        previous={
+          previous
+            ? { href: `/work/${previous.slug}`, label: previous.title }
+            : null
+        }
+        next={next ? { href: `/work/${next.slug}`, label: next.title } : null}
+      />
     </SiteShell>
   );
 }

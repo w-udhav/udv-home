@@ -22,7 +22,7 @@ export default function ExperimentsPage() {
         </Link>
         .
       </p>
-      <div>
+      <div className="card">
         {experiments.map((item) => (
           <EntryRow
             key={item.slug}

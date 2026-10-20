@@ -13,7 +13,7 @@ type PageHeaderProps = {
 
 export default function PageHeader({ title, crumbs }: PageHeaderProps) {
   return (
-    <header className="flex flex-col gap-6">
+    <header className="mb-2 flex flex-col gap-4 sm:mb-4">
       <nav aria-label="Breadcrumb" className="type-caption">
         <ol className="flex flex-wrap items-center gap-x-1.5">
           <li>

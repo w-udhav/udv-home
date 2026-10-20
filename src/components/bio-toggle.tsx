@@ -1,48 +1,42 @@
 "use client";
 
 import { useState } from "react";
+import SectionCard from "@/components/section-card";
 import { bio, identity } from "@/data/resume";
+
+const links = [
+  { label: "Email", href: `mailto:${identity.email}` },
+  { label: "GitHub", href: identity.github },
+  { label: "LinkedIn", href: identity.linkedin },
+  { label: "X", href: identity.twitter },
+];
 
 export default function BioToggle() {
   const [longBio, setLongBio] = useState(false);
 
   return (
-    <section
-      aria-labelledby="bio-heading"
-      className="border-b border-separator pb-10 sm:pb-12"
-    >
-      <div className="mb-4 flex items-center gap-5 border-b border-separator pb-2">
-        <h2 id="bio-heading" className="type-caption">
-          Bio
-        </h2>
+    <SectionCard
+      id="bio-heading"
+      title="Bio"
+      action={
         <fieldset
           aria-label="Bio length"
-          className="m-0 flex items-center gap-4 border-0 p-0"
+          className="m-0 flex items-center gap-1 border-0 p-0"
         >
-          <button
-            type="button"
-            onClick={() => setLongBio(false)}
-            className={`type-caption transition-colors ${
-              !longBio
-                ? "text-foreground underline decoration-foreground/35 underline-offset-[6px]"
-                : "hover:text-foreground"
-            }`}
-          >
-            Default
-          </button>
-          <button
-            type="button"
-            onClick={() => setLongBio(true)}
-            className={`type-caption transition-colors ${
-              longBio
-                ? "text-foreground underline decoration-foreground/35 underline-offset-[6px]"
-                : "hover:text-foreground"
-            }`}
-          >
-            Long
-          </button>
+          {[false, true].map((isLong) => (
+            <button
+              key={String(isLong)}
+              type="button"
+              aria-pressed={longBio === isLong}
+              onClick={() => setLongBio(isLong)}
+              className={`pill ${longBio === isLong ? "pill-active" : ""}`}
+            >
+              {isLong ? "Long" : "Default"}
+            </button>
+          ))}
         </fieldset>
-      </div>
+      }
+    >
       <div className="type-body space-y-4">
         {longBio ? (
           bio.long.map((paragraph) => (
@@ -52,38 +46,22 @@ export default function BioToggle() {
           <p>{bio.short}</p>
         )}
       </div>
-      <p className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
-        <a
-          href={`mailto:${identity.email}`}
-          className="type-caption hover:text-foreground"
-        >
-          Email
-        </a>
-        <a
-          href={identity.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="type-caption hover:text-foreground"
-        >
-          GitHub
-        </a>
-        <a
-          href={identity.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="type-caption hover:text-foreground"
-        >
-          LinkedIn
-        </a>
-        <a
-          href={identity.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="type-caption hover:text-foreground"
-        >
-          X
-        </a>
+      <p className="mt-4 flex flex-wrap gap-1">
+        {links.map((link) => {
+          const external = !link.href.startsWith("mailto:");
+          return (
+            <a
+              key={link.label}
+              href={link.href}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              className="pill pill-active"
+            >
+              {link.label}
+            </a>
+          );
+        })}
       </p>
-    </section>
+    </SectionCard>
   );
 }

@@ -26,7 +26,7 @@ export default function WorkPage() {
         </Link>
         .
       </p>
-      <div>
+      <div className="card">
         {workCases.map((item) => (
           <EntryRow
             key={item.slug}

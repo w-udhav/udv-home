@@ -1,8 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import profileImage from "@/assets/profile.png";
+import ActivityCard from "@/components/activity-card";
 import BioToggle from "@/components/bio-toggle";
 import EntryRow from "@/components/entry-row";
+import SectionCard from "@/components/section-card";
 import SiteShell from "@/components/site-shell";
 import {
   employment,
@@ -19,104 +20,75 @@ export default function Home() {
 
   return (
     <SiteShell>
-      <header className="flex items-start gap-5">
+      <header className="mb-2 flex items-center gap-4 sm:mb-4">
         <Image
           src={profileImage}
           alt=""
           width={56}
           height={56}
           priority
-          className="mt-1 size-14 rounded-full object-cover"
+          className="size-14 rounded-full object-cover"
         />
         <div>
           <h1 className="type-heading">{identity.handle}</h1>
-          <p className="type-caption mt-2">{identity.title}</p>
+          <p className="type-caption mt-1">{identity.title}</p>
         </div>
       </header>
 
       <BioToggle />
 
-      <section aria-labelledby="now-heading">
-        <h2 id="now-heading" className="type-caption mb-3">
-          Now
-        </h2>
+      <SectionCard id="now-heading" title="Now">
         <p className="type-body">
           Software Developer Engineer at Orbitaim — a B2B outreach platform used
           by clients. Before that, Software Engineer at Wendor, where I cut
           machine-status and order API time from about 15s to about 3s and
           improved dashboard load by 40–60%.
         </p>
-      </section>
+      </SectionCard>
 
-      <section aria-labelledby="work-heading">
-        <div className="mb-1 flex items-baseline justify-between gap-4">
-          <h2 id="work-heading" className="type-subheading">
-            Work
-          </h2>
-          <Link href="/work" className="type-caption hover:text-foreground">
-            All
-          </Link>
-        </div>
-        <div>
-          {selectedWork.map((item) => (
-            <EntryRow
-              key={item.slug}
-              href={`/work/${item.slug}`}
-              title={item.title}
-              description={item.lede}
-            />
-          ))}
-        </div>
-      </section>
+      <ActivityCard />
 
-      <section aria-labelledby="experience-heading">
-        <div className="mb-1 flex items-baseline justify-between gap-4">
-          <h2 id="experience-heading" className="type-subheading">
-            Experience
-          </h2>
-          <Link
-            href="/experience"
-            className="type-caption hover:text-foreground"
-          >
-            All
-          </Link>
-        </div>
-        <div>
-          {employment.map((job) => (
-            <EntryRow
-              key={job.slug}
-              href={`/experience/${job.slug}`}
-              title={job.company}
-              description={job.title}
-              meta={job.status === "current" ? "Current" : job.dates}
-            />
-          ))}
-        </div>
-      </section>
+      <SectionCard id="work-heading" title="Work" href="/work">
+        {selectedWork.map((item) => (
+          <EntryRow
+            key={item.slug}
+            href={`/work/${item.slug}`}
+            title={item.title}
+            description={item.lede}
+          />
+        ))}
+      </SectionCard>
 
-      <section aria-labelledby="experiments-heading">
-        <div className="mb-1 flex items-baseline justify-between gap-4">
-          <h2 id="experiments-heading" className="type-subheading">
-            Experiments
-          </h2>
-          <Link
-            href="/experiments"
-            className="type-caption hover:text-foreground"
-          >
-            All
-          </Link>
-        </div>
-        <div>
-          {experiments.slice(0, 3).map((item) => (
-            <EntryRow
-              key={item.slug}
-              href={`/experiments/${item.slug}`}
-              title={item.title}
-              description={item.lede}
-            />
-          ))}
-        </div>
-      </section>
+      <SectionCard
+        id="experience-heading"
+        title="Experience"
+        href="/experience"
+      >
+        {employment.map((job) => (
+          <EntryRow
+            key={job.slug}
+            href={`/experience/${job.slug}`}
+            title={job.company}
+            description={job.title}
+            meta={job.status === "current" ? "Current" : job.dates}
+          />
+        ))}
+      </SectionCard>
+
+      <SectionCard
+        id="experiments-heading"
+        title="Experiments"
+        href="/experiments"
+      >
+        {experiments.slice(0, 3).map((item) => (
+          <EntryRow
+            key={item.slug}
+            href={`/experiments/${item.slug}`}
+            title={item.title}
+            description={item.lede}
+          />
+        ))}
+      </SectionCard>
     </SiteShell>
   );
 }

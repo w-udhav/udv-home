@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FactTiles, Pager, StackPills } from "@/components/detail-blocks";
 import PageHeader from "@/components/page-header";
+import SectionCard from "@/components/section-card";
 import SiteShell from "@/components/site-shell";
 import { experiments, getExperiment } from "@/data/resume";
 
@@ -40,71 +42,60 @@ export default async function ExperimentDetailPage({ params }: Props) {
           { label: item.title },
         ]}
       />
-      <p className="type-caption">
-        {item.role}
-        {item.dates ? ` · ${item.dates}` : ""}
-      </p>
-      <p className="type-body">{item.summary}</p>
+      <FactTiles
+        facts={[
+          { label: "Role", value: item.role },
+          ...(item.dates ? [{ label: "Dates", value: item.dates }] : []),
+        ]}
+      />
+      <SectionCard
+        id="overview-heading"
+        title="Overview"
+        action={
+          item.github ? (
+            <a
+              href={item.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill pill-active"
+            >
+              GitHub ↗
+            </a>
+          ) : null
+        }
+      >
+        <p className="type-body">{item.summary}</p>
+        <ul className="type-body mt-4 list-disc space-y-3 pl-5">
+          {item.bullets.map((bullet) => (
+            <li key={bullet.slice(0, 48)}>{bullet}</li>
+          ))}
+        </ul>
+      </SectionCard>
 
-      <ul className="type-body list-disc space-y-3 pl-5">
-        {item.bullets.map((bullet) => (
-          <li key={bullet.slice(0, 48)}>{bullet}</li>
-        ))}
-      </ul>
-
-      <section aria-labelledby="tech-heading">
-        <h2 id="tech-heading" className="type-caption mb-3">
-          Stack
-        </h2>
-        <p className="type-body">{item.technologies.join(", ")}</p>
-      </section>
+      <SectionCard id="tech-heading" title="Stack">
+        <StackPills items={item.technologies} />
+      </SectionCard>
 
       {item.caveats && item.caveats.length > 0 ? (
-        <section aria-labelledby="caveats-heading">
-          <h2 id="caveats-heading" className="type-caption mb-3">
-            Notes
-          </h2>
+        <SectionCard id="caveats-heading" title="Notes">
           <ul className="type-body list-disc space-y-2 pl-5">
             {item.caveats.map((caveat) => (
               <li key={caveat}>{caveat}</li>
             ))}
           </ul>
-        </section>
+        </SectionCard>
       ) : null}
 
-      {item.github ? (
-        <p className="type-caption">
-          <a
-            href={item.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-foreground"
-          >
-            GitHub ↗
-          </a>
-        </p>
-      ) : null}
-
-      <nav className="flex justify-between gap-6 border-t border-separator pt-6">
-        {previous ? (
-          <Link
-            href={`/experiments/${previous.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            ← {previous.title}
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/experiments/${next.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            {next.title} →
-          </Link>
-        ) : null}
-      </nav>
+      <Pager
+        previous={
+          previous
+            ? { href: `/experiments/${previous.slug}`, label: previous.title }
+            : null
+        }
+        next={
+          next ? { href: `/experiments/${next.slug}`, label: next.title } : null
+        }
+      />
     </SiteShell>
   );
 }

@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FactTiles, Pager, StackPills } from "@/components/detail-blocks";
 import PageHeader from "@/components/page-header";
+import SectionCard from "@/components/section-card";
 import SiteShell from "@/components/site-shell";
-import { employment, getEmployment, getWorkCase } from "@/data/resume";
+import {
+  employment,
+  getEmployment,
+  getExperiment,
+  getWorkCase,
+} from "@/data/resume";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -47,98 +54,79 @@ export default async function ExperienceDetailPage({ params }: Props) {
           { label: job.company },
         ]}
       />
-      <p className="type-caption">
-        {job.title} · {job.type} · {job.dates}
-      </p>
-      <p className="type-body">{job.summary}</p>
+      <FactTiles
+        facts={[
+          { label: "Title", value: job.title },
+          { label: "Type", value: job.type },
+          { label: "Dates", value: job.dates },
+        ]}
+      />
+      <SectionCard id="overview-heading" title="Overview">
+        <p className="type-body">{job.summary}</p>
+      </SectionCard>
 
-      <section aria-labelledby="work-heading">
-        <h2 id="work-heading" className="type-subheading mb-4">
-          Work
-        </h2>
+      <SectionCard id="work-heading" title="Work">
         <ul className="type-body list-disc space-y-3 pl-5">
           {job.bullets.map((bullet) => (
             <li key={bullet.slice(0, 48)}>{bullet}</li>
           ))}
         </ul>
-      </section>
+      </SectionCard>
 
       {job.technologies.length > 0 ? (
-        <section aria-labelledby="tech-heading">
-          <h2 id="tech-heading" className="type-caption mb-3">
-            Stack
-          </h2>
-          <p className="type-body">{job.technologies.join(", ")}</p>
-        </section>
+        <SectionCard id="tech-heading" title="Stack">
+          <StackPills items={job.technologies} />
+        </SectionCard>
       ) : null}
 
       {job.notes && job.notes.length > 0 ? (
-        <section aria-labelledby="notes-heading">
-          <h2 id="notes-heading" className="type-caption mb-3">
-            Notes
-          </h2>
+        <SectionCard id="notes-heading" title="Notes">
           <ul className="type-body list-disc space-y-2 pl-5">
             {job.notes.map((note) => (
               <li key={note}>{note}</li>
             ))}
           </ul>
-        </section>
+        </SectionCard>
       ) : null}
 
-      {relatedWork.length > 0 ? (
-        <p className="type-caption">
-          Product story:{" "}
-          {relatedWork.map((item, i) => (
-            <span key={item.slug}>
-              {i > 0 ? ", " : null}
+      {relatedWork.length > 0 ||
+      (job.relatedExperiments && job.relatedExperiments.length > 0) ? (
+        <SectionCard id="related-heading" title="Related">
+          <div className="flex flex-wrap gap-1">
+            {relatedWork.map((item) => (
               <Link
+                key={item.slug}
                 href={`/work/${item.slug}`}
-                className="hover:text-foreground"
+                className="pill pill-active"
               >
-                {item.title}
+                Product story: {item.title}
               </Link>
-            </span>
-          ))}
-        </p>
-      ) : null}
-
-      {job.relatedExperiments && job.relatedExperiments.length > 0 ? (
-        <p className="type-caption">
-          Related:{" "}
-          {job.relatedExperiments.map((expSlug, i) => (
-            <span key={expSlug}>
-              {i > 0 ? ", " : null}
+            ))}
+            {(job.relatedExperiments ?? []).map((expSlug) => (
               <Link
+                key={expSlug}
                 href={`/experiments/${expSlug}`}
-                className="hover:text-foreground"
+                className="pill pill-active"
               >
-                project page
+                Project: {getExperiment(expSlug)?.title ?? expSlug}
               </Link>
-            </span>
-          ))}
-        </p>
+            ))}
+          </div>
+        </SectionCard>
       ) : null}
 
-      <nav className="flex justify-between gap-6 border-t border-separator pt-6">
-        {previous ? (
-          <Link
-            href={`/experience/${previous.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            ← {previous.company}
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/experience/${next.slug}`}
-            className="type-caption hover:text-foreground"
-          >
-            {next.company} →
-          </Link>
-        ) : null}
-      </nav>
+      <Pager
+        previous={
+          previous
+            ? { href: `/experience/${previous.slug}`, label: previous.company }
+            : null
+        }
+        next={
+          next
+            ? { href: `/experience/${next.slug}`, label: next.company }
+            : null
+        }
+      />
     </SiteShell>
   );
 }
