@@ -42,9 +42,7 @@
   --shadow-nav: 0 12px 40px rgb(0 0 0 / 0.12);
   --scrollbar-thumb: rgb(60 60 67 / 0.28);
   --scrollbar-thumb-hover: rgb(60 60 67 / 0.42);
-  --tile: rgb(60 60 67 / 0.07);
-  --tile-hover: rgb(60 60 67 / 0.12);
-  --activity-0: var(--tile);
+  --activity-0: rgb(60 60 67 / 0.07);
   --activity-1: rgb(66 112 220 / 0.32);
   --activity-2: rgb(66 112 220 / 0.55);
   --activity-3: rgb(66 112 220 / 0.82);
@@ -71,8 +69,7 @@
   --shadow-nav: 0 16px 48px rgb(0 0 0 / 0.45);
   --scrollbar-thumb: rgb(235 235 245 / 0.28);
   --scrollbar-thumb-hover: rgb(235 235 245 / 0.42);
-  --tile: rgb(235 235 245 / 0.06);
-  --tile-hover: rgb(235 235 245 / 0.1);
+  --activity-0: rgb(235 235 245 / 0.06);
   --activity-1: rgb(110 150 245 / 0.3);
   --activity-2: rgb(110 150 245 / 0.5);
   --activity-3: rgb(110 150 245 / 0.8);
@@ -206,58 +203,29 @@ body {
   color: var(--foreground);
 }
 
-/* Surfaces shared by every page, taken from the Claude activity card */
-.card {
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  background: var(--surface);
-  padding: 1rem;
-}
-
-@media (min-width: 640px) {
-  .card {
-    padding: 1.25rem;
-  }
-}
-
-.tile {
-  border-radius: 0.625rem;
-  background: var(--tile);
-  padding: 0.5rem 0.75rem;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 0.5rem;
-  padding: 0.3rem 0.65rem;
+/* Plain text controls: no fills or borders, state carried by color and underline */
+.text-toggle {
   font-family: var(--font-sans);
   font-size: 13px;
-  line-height: 18px;
+  line-height: 20px;
   color: var(--muted);
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
   transition:
-    background-color 160ms ease,
-    color 160ms ease;
+    color 160ms ease,
+    text-decoration-color 160ms ease;
 }
 
-.pill-active {
-  background: var(--tile);
+.text-toggle:hover,
+.text-toggle[aria-pressed="true"],
+.text-toggle[aria-current="page"] {
   color: var(--foreground);
 }
 
-a.pill:hover,
-button.pill:hover {
-  color: var(--foreground);
-}
-
-.row-link {
-  border-radius: 0.625rem;
-  transition: background-color 160ms ease;
-}
-
-.row-link:hover,
-.row-link:focus-visible {
-  background: var(--tile);
+.text-toggle[aria-pressed="true"] {
+  text-decoration-color: color-mix(in srgb, var(--foreground) 40%, transparent);
 }
 
 ::selection {
@@ -436,7 +404,3 @@ button.pill:hover {
   }
 }
 
-.tile.row-link:hover,
-.tile.row-link:focus-visible {
-  background: var(--tile-hover);
-}

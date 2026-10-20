@@ -1,27 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import SectionCard from "@/components/section-card";
-import { bio, identity } from "@/data/resume";
+import Section from "@/components/section";
+import { bio } from "@/data/resume";
 
-const links = [
-  { label: "Email", href: `mailto:${identity.email}` },
-  { label: "GitHub", href: identity.github },
-  { label: "LinkedIn", href: identity.linkedin },
-  { label: "X", href: identity.twitter },
-];
-
-export default function BioToggle() {
+export default function BioToggle({ className }: { className?: string }) {
   const [longBio, setLongBio] = useState(false);
 
   return (
-    <SectionCard
+    <Section
       id="bio-heading"
       title="Bio"
+      className={className}
       action={
         <fieldset
           aria-label="Bio length"
-          className="m-0 flex items-center gap-1 border-0 p-0"
+          className="m-0 flex items-center gap-4 border-0 p-0"
         >
           {[false, true].map((isLong) => (
             <button
@@ -29,9 +23,9 @@ export default function BioToggle() {
               type="button"
               aria-pressed={longBio === isLong}
               onClick={() => setLongBio(isLong)}
-              className={`pill ${longBio === isLong ? "pill-active" : ""}`}
+              className="text-toggle"
             >
-              {isLong ? "Long" : "Default"}
+              {isLong ? "Long" : "Short"}
             </button>
           ))}
         </fieldset>
@@ -46,22 +40,6 @@ export default function BioToggle() {
           <p>{bio.short}</p>
         )}
       </div>
-      <p className="mt-4 flex flex-wrap gap-1">
-        {links.map((link) => {
-          const external = !link.href.startsWith("mailto:");
-          return (
-            <a
-              key={link.label}
-              href={link.href}
-              target={external ? "_blank" : undefined}
-              rel={external ? "noopener noreferrer" : undefined}
-              className="pill pill-active"
-            >
-              {link.label}
-            </a>
-          );
-        })}
-      </p>
-    </SectionCard>
+    </Section>
   );
 }

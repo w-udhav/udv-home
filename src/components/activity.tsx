@@ -89,49 +89,55 @@ const updated = new Date(lastDay).toLocaleDateString("en", {
 
 const novels = Math.round(activity.totalTokens / WAR_AND_PEACE_TOKENS);
 
-export default function ActivityCard() {
+export default function Activity({ className }: { className?: string }) {
   return (
-    <figure aria-labelledby="activity-heading" className="card m-0">
-      <div className="flex items-center justify-between gap-4">
+    <section
+      aria-labelledby="activity-heading"
+      className={`grid gap-8 lg:grid-cols-6 lg:gap-10 ${className ?? ""}`}
+    >
+      <div className="lg:col-span-2">
         <h2 id="activity-heading" className="type-subheading">
-          Claude Code activity
+          Building with Claude Code
         </h2>
-        <span className="pill pill-active">Updated {updated}</span>
+        <p className="type-caption mt-1">
+          Measured from my own sessions · updated {updated}
+        </p>
+        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <dt className="type-caption">{stat.label}</dt>
+              <dd className="type-stat m-0">{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
-      <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="tile">
-            <dt className="type-caption">{stat.label}</dt>
-            <dd className="type-stat m-0">{stat.value}</dd>
-          </div>
-        ))}
-      </dl>
-
-      <div
-        role="img"
-        aria-label={`Daily Claude Code activity over the last ${COLUMNS} weeks, animating to spell Udhav`}
-        className="activity-grid mt-4"
-        style={{ gridTemplateColumns: `repeat(${COLUMNS}, minmax(0, 1fr))` }}
-      >
-        {cells.map((cell) => (
-          <span
-            key={cell.key}
-            className={`activity-cell ${cell.text ? "activity-cell-text" : "activity-cell-day"}`}
-            style={
-              {
-                "--base": `var(--activity-${dayLevel(cell.row, cell.col)})`,
-                "--on": `var(--activity-${(cell.row + cell.col) % 2 ? 4 : 3})`,
-                "--delay": `${cell.col * 22}ms`,
-              } as CSSProperties
-            }
-          />
-        ))}
-      </div>
-
-      <figcaption className="type-caption mt-4">
-        You&apos;ve used ~{novels}× more tokens than War and Peace.
-      </figcaption>
-    </figure>
+      <figure className="m-0 flex flex-col justify-center lg:col-span-4">
+        <div
+          role="img"
+          aria-label={`Daily Claude Code activity over the last ${COLUMNS} weeks, animating to spell Udhav`}
+          className="activity-grid"
+          style={{ gridTemplateColumns: `repeat(${COLUMNS}, minmax(0, 1fr))` }}
+        >
+          {cells.map((cell) => (
+            <span
+              key={cell.key}
+              className={`activity-cell ${cell.text ? "activity-cell-text" : "activity-cell-day"}`}
+              style={
+                {
+                  "--base": `var(--activity-${dayLevel(cell.row, cell.col)})`,
+                  "--on": `var(--activity-${(cell.row + cell.col) % 2 ? 4 : 3})`,
+                  "--delay": `${cell.col * 22}ms`,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+        <figcaption className="type-caption mt-4">
+          {COLUMNS} weeks of daily sessions. That&apos;s ~{novels}× the tokens
+          in War and Peace.
+        </figcaption>
+      </figure>
+    </section>
   );
 }

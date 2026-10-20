@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FactTiles, Pager, StackPills } from "@/components/detail-blocks";
+import { Facts, Pager, Stack } from "@/components/detail-blocks";
 import PageHeader from "@/components/page-header";
-import SectionCard from "@/components/section-card";
+import Section from "@/components/section";
 import SiteShell from "@/components/site-shell";
 import { getWorkCase, workCases } from "@/data/resume";
 
@@ -39,47 +39,44 @@ export default async function WorkCasePage({ params }: Props) {
         title={item.title}
         crumbs={[{ label: "Work", href: "/work" }, { label: item.title }]}
       />
-      <FactTiles
-        facts={[
-          { label: "Type", value: item.eyebrow },
-          { label: "Role", value: item.role },
-          { label: "Dates", value: item.dates },
-        ]}
-      />
-      <SectionCard id="overview-heading" title="Overview">
-        <p className="type-body">{item.summary}</p>
-      </SectionCard>
-
-      {item.sections.map((section) => (
-        <SectionCard
-          key={section.heading}
-          id={`${item.slug}-${section.heading}`}
-          title={section.heading}
-        >
-          <div className="type-body space-y-4">
-            {section.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-            ))}
-          </div>
-        </SectionCard>
-      ))}
-
-      <SectionCard
-        id="tech-heading"
-        title="Stack"
-        action={
-          item.experienceSlug ? (
+      <div className="grid gap-12 lg:grid-cols-3 lg:gap-16">
+        <div className="flex flex-col gap-10 lg:col-span-2">
+          <p className="type-body text-foreground">{item.summary}</p>
+          {item.sections.map((section) => (
+            <Section
+              key={section.heading}
+              id={`${item.slug}-${section.heading}`}
+              title={section.heading}
+            >
+              <div className="type-body space-y-4">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                ))}
+              </div>
+            </Section>
+          ))}
+        </div>
+        <aside className="flex flex-col gap-10">
+          <Facts
+            facts={[
+              { label: "Type", value: item.eyebrow },
+              { label: "Role", value: item.role },
+              { label: "Dates", value: item.dates },
+            ]}
+          />
+          <Section id="tech-heading" title="Stack">
+            <Stack items={item.technologies} />
+          </Section>
+          {item.experienceSlug ? (
             <Link
               href={`/experience/${item.experienceSlug}`}
-              className="pill pill-active"
+              className="text-toggle"
             >
-              Employment record
+              Employment record →
             </Link>
-          ) : null
-        }
-      >
-        <StackPills items={item.technologies} />
-      </SectionCard>
+          ) : null}
+        </aside>
+      </div>
 
       <Pager
         previous={

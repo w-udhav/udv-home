@@ -15,7 +15,7 @@ export default function WorkPage() {
   return (
     <SiteShell>
       <PageHeader title="Work" crumbs={[{ label: "Work" }]} />
-      <p className="type-body">
+      <p className="type-body max-w-3xl">
         Selected product stories. Employment history lives on{" "}
         <Link href="/experience" className="note-link">
           Experience
@@ -26,7 +26,7 @@ export default function WorkPage() {
         </Link>
         .
       </p>
-      <div className="card">
+      <div className="max-w-3xl">
         {workCases.map((item) => (
           <EntryRow
             key={item.slug}
